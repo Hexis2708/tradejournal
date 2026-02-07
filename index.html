@@ -1,0 +1,1686 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trades Journal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@300;500;700&display=swap');
+    
+    :root {
+      --neon-cyan: #00f0ff;
+      --neon-pink: #ff006e;
+      --neon-green: #39ff14;
+      --neon-yellow: #ffbe0b;
+      --void: #050508;
+      --void-light: #0a0a0f;
+      --void-lighter: #12121a;
+      --surface: #1a1a24;
+      --surface-hover: #222230;
+      --text: #e0e0e0;
+      --text-dim: #6b6b7b;
+      --text-bright: #ffffff;
+      --grid-line: rgba(0, 240, 255, 0.05);
+      --danger: #ff2a6d;
+      --success: #05ffa1;
+      --warning: #ffbe0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--void);
+      color: var(--text);
+      min-height: 100vh;
+      background-image: 
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 50px 50px;
+      overflow-x: hidden;
+    }
+
+    /* Scanline effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.3) 2px,
+        rgba(0,0,0,0.3) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.15;
+    }
+
+    /* Glitch text animation */
+    @keyframes glitch {
+      0% { transform: translate(0) }
+      20% { transform: translate(-2px, 2px) }
+      40% { transform: translate(-2px, -2px) }
+      60% { transform: translate(2px, 2px) }
+      80% { transform: translate(2px, -2px) }
+      100% { transform: translate(0) }
+    }
+
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Header - Asymmetric brutalist */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      margin-bottom: 60px;
+      padding: 30px;
+      background: var(--void-lighter);
+      border: 1px solid var(--surface);
+      border-left: 4px solid var(--neon-cyan);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '///';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 120px;
+      color: var(--surface);
+      opacity: 0.3;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .brand h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 42px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: var(--text-bright);
+      position: relative;
+      display: inline-block;
+    }
+
+    .brand h1::before {
+      content: 'NEXUS';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      color: var(--neon-pink);
+      opacity: 0.4;
+      z-index: -1;
+      animation: glitch 3s infinite;
+    }
+
+    .brand h1 span {
+      color: var(--neon-cyan);
+      font-weight: 300;
+    }
+
+    .sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 1;
+    }
+
+    /* Buttons - Cyberpunk style */
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 24px;
+      border: 1px solid var(--surface);
+      background: var(--void-light);
+      color: var(--text);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    }
+
+    .btn.primary {
+      background: var(--neon-cyan);
+      color: var(--void);
+      border-color: var(--neon-cyan);
+    }
+
+    .btn.primary:hover {
+      background: var(--text-bright);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    }
+
+    .btn.danger {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .btn.danger:hover {
+      background: var(--danger);
+      color: var(--void);
+      box-shadow: 0 0 20px rgba(255, 42, 109, 0.4);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border-style: dashed;
+    }
+
+    /* Auth Section - Terminal style */
+    #authCard {
+      background: var(--void-lighter);
+      border: 1px solid var(--surface);
+      padding: 30px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    #authCard::before {
+      content: '>';
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      color: var(--neon-cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .auth-header {
+      padding-left: 20px;
+      border-left: 2px solid var(--neon-pink);
+    }
+
+    .auth-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* Form Elements - High contrast */
+    label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--void);
+      border: 1px solid var(--surface);
+      color: var(--text-bright);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1), inset 0 0 20px rgba(0, 240, 255, 0.05);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2300f0ff' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Main App Layout */
+    #app {
+      display: grid;
+      gap: 40px;
+    }
+
+    .section {
+      background: var(--void-lighter);
+      border: 1px solid var(--surface);
+      padding: 30px;
+      position: relative;
+    }
+
+    .section::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--void);
+      padding: 0 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      border: 1px solid var(--surface);
+    }
+
+    /* Form Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .form-col-2 { grid-column: span 2; }
+    .form-col-4 { grid-column: span 4; }
+
+    @media (max-width: 1000px) {
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-col-2, .form-col-4 { grid-column: span 2; }
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-col-2, .form-col-4 { grid-column: span 1; }
+    }
+
+    /* Paste Box - Tech style */
+    .paste-zone {
+      border: 2px dashed var(--surface);
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 240, 255, 0.02) 10px,
+        rgba(0, 240, 255, 0.02) 20px
+      );
+      transition: all 0.3s;
+    }
+
+    .paste-zone:hover, .paste-zone:focus-within {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    .paste-zone .kbd {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--surface);
+      border: 1px solid var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      margin: 0 4px;
+    }
+
+    .preview-box {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .thumb-big {
+      width: 200px;
+      height: 120px;
+      object-fit: cover;
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    }
+
+    /* KPIs - Hexagonal grid style */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .kpi-card {
+      background: var(--void);
+      border: 1px solid var(--surface);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--neon-cyan);
+      opacity: 0.5;
+    }
+
+    .kpi-card.negative::after {
+      background: var(--danger);
+    }
+
+    .kpi-card.positive::after {
+      background: var(--success);
+    }
+
+    .kpi-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+    }
+
+    .kpi-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 8px;
+      color: var(--text-bright);
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Filters */
+    .filter-bar {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: var(--void);
+      border: 1px solid var(--surface);
+    }
+
+    @media (max-width: 900px) {
+      .filter-bar { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Table - Cyber table */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--surface);
+      background: var(--void);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--neon-cyan);
+      padding: 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--surface);
+      background: var(--void-lighter);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--surface);
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: rgba(0, 240, 255, 0.03);
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .badge.win {
+      color: var(--success);
+      border-color: var(--success);
+      background: rgba(5, 255, 161, 0.1);
+    }
+
+    .badge.loss {
+      color: var(--danger);
+      border-color: var(--danger);
+      background: rgba(255, 42, 109, 0.1);
+    }
+
+    .badge.be {
+      color: var(--warning);
+      border-color: var(--warning);
+      background: rgba(255, 190, 11, 0.1);
+    }
+
+    .badge.long {
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .badge.short {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--surface);
+      border: 1px solid var(--surface);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      margin: 2px;
+      transition: all 0.2s;
+    }
+
+    .tag:hover {
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+    }
+
+    /* Thumbnails */
+    .thumb {
+      width: 80px;
+      height: 50px;
+      object-fit: cover;
+      border: 1px solid var(--surface);
+      filter: grayscale(100%);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .thumb:hover {
+      filter: grayscale(0%);
+      border-color: var(--neon-cyan);
+      transform: scale(1.1);
+    }
+
+    /* Links */
+    .link-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .link-row a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .link-row a:hover {
+      border-bottom-color: var(--neon-cyan);
+    }
+
+    .link-row a.danger {
+      color: var(--danger);
+    }
+
+    .link-row a.danger:hover {
+      border-bottom-color: var(--danger);
+    }
+
+    /* Modal */
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 8, 0.95);
+      z-index: 10000;
+      padding: 40px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
+      position: relative;
+      background: var(--void);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 8px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .modal-close:hover {
+      background: var(--danger);
+      color: var(--void);
+    }
+
+    #modalImg {
+      max-width: 100%;
+      max-height: 85vh;
+      display: block;
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .text-right { text-align: right; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .dim { color: var(--text-dim); }
+    .bright { color: var(--text-bright); }
+    .cyan { color: var(--neon-cyan); }
+    .green { color: var(--success); }
+    .red { color: var(--danger); }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--void);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface);
+      border: 1px solid var(--neon-cyan);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--neon-cyan);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>TRADE_JOURNAL</h1>
+        <div class="sub">Cloud_Sync // Screenshot_Capture // Analytics_Engine</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn" id="exportBtn">[ EXPORT_CSV ]</button>
+        <label class="btn" style="cursor:pointer;">
+          [ IMPORT_CSV ]
+          <input id="importInput" type="file" accept=".csv,text/csv" style="display:none" />
+        </label>
+        <button class="btn danger" id="wipeBtn">[ PURGE_LOCAL ]</button>
+      </div>
+    </header>
+
+    <div id="authCard">
+      <div class="auth-header">
+        <div class="mono cyan" style="font-size:14px; font-weight:700;">AUTHENTICATION_REQUIRED</div>
+        <div class="auth-status dim" id="authHint">Initialize connection to Supabase cluster...</div>
+      </div>
+      
+      <div class="auth-grid">
+        <div>
+          <label>Email_Address</label>
+          <input id="authEmail" type="email" placeholder="operator@nexus.net" />
+        </div>
+        <div>
+          <label>Passkey</label>
+          <input id="authPass" type="password" placeholder="••••••••" />
+        </div>
+        <div style="grid-column:span 2; display:flex; gap:12px; align-items:flex-end;">
+          <button class="btn primary" id="signInBtn">[ AUTHENTICATE ]</button>
+          <button class="btn" id="signUpBtn">[ REGISTER ]</button>
+          <button class="btn ghost" id="magicBtn">[ MAGIC_LINK ]</button>
+          <button class="btn ghost hidden" id="signOutBtn">[ DISCONNECT ]</button>
+          <span class="mono dim" id="whoami" style="margin-left:auto; font-size:12px;"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="app" class="hidden">
+      <!-- Entry Form -->
+      <div class="section" data-label="NEW_ENTRY">
+        <div class="form-grid">
+          <div>
+            <label>Date_Stamp</label>
+            <input id="date" type="date" />
+          </div>
+          <div>
+            <label>Time_Stamp</label>
+            <input id="time" type="time" />
+          </div>
+          <div>
+            <label>Asset_Symbol</label>
+            <input id="symbol" placeholder="GBPUSD" style="text-transform:uppercase;" />
+          </div>
+          <div>
+            <label>Position_Type</label>
+            <select id="direction">
+              <option value="LONG">LONG</option>
+              <option value="SHORT">SHORT</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Market_Session</label>
+            <select id="session">
+              <option value="ASIA">ASIA</option>
+              <option value="LONDON">LONDON</option>
+              <option value="NEWYORK">NEW_YORK</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+          <div>
+            <label>Strategy_Pattern</label>
+            <input id="setup" placeholder="FVG_BREAK" />
+          </div>
+          <div>
+            <label>Risk_Factor</label>
+            <input id="riskR" type="number" step="0.01" placeholder="1.0" />
+          </div>
+          <div>
+            <label>Outcome</label>
+            <select id="result">
+              <option value="WIN">WIN</option>
+              <option value="LOSS">LOSS</option>
+              <option value="BE">BREAK_EVEN</option>
+            </select>
+          </div>
+
+          <div>
+            <label>R_Multiple</label>
+            <input id="rr" type="number" step="0.01" placeholder="2.5" />
+          </div>
+          <div>
+            <label>PnL_Value</label>
+            <input id="pl" type="number" step="0.01" placeholder="500.00" />
+          </div>
+          <div class="form-col-2">
+            <label>Metadata_Tags</label>
+            <input id="tags" placeholder="ict, liquidity, manipulation" />
+          </div>
+
+          <div class="form-col-2">
+            <label>External_URL</label>
+            <input id="shotUrl" placeholder="https://..." />
+          </div>
+          <div class="form-col-2">
+            <label>File_Upload</label>
+            <input id="shotFile" type="file" accept="image/*" />
+          </div>
+
+          <div class="form-col-2">
+            <label>Clipboard_Capture [ Ctrl+V ]</label>
+            <div class="paste-zone" id="pasteBox" tabindex="0">
+              <div class="dim mono" style="font-size:12px;">
+                PASTE_SCREENSHOT_HERE <span class="kbd">CTRL</span>+<span class="kbd">V</span>
+              </div>
+              <div class="preview-box">
+                <img id="shotPreview" class="thumb-big hidden" alt="preview" />
+                <div class="mono dim" id="shotStatus" style="font-size:11px;">NO_IMAGE_DATA</div>
+              </div>
+              <button class="btn danger" id="clearShotBtn" type="button" style="margin-top:16px;">
+                [ CLEAR_BUFFER ]
+              </button>
+            </div>
+          </div>
+
+          <div class="form-col-4">
+            <label>Trade_Notes</label>
+            <textarea id="notes" placeholder="Market context, emotional state, execution quality..."></textarea>
+          </div>
+
+          <div class="form-col-4" style="display:flex; gap:12px; align-items:center;">
+            <button class="btn primary" id="addBtn">[ COMMIT_ENTRY ]</button>
+            <button class="btn ghost" id="clearFormBtn">[ RESET_FORM ]</button>
+            <button class="btn" id="syncBtn">[ FORCE_SYNC ]</button>
+            <span class="mono dim" id="cloudHint" style="margin-left:auto; font-size:11px;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics & Table -->
+      <div class="section" data-label="DATABASE">
+        <!-- KPIs -->
+        <div class="kpi-grid" id="kpis"></div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div>
+            <label>Search_Query</label>
+            <input id="search" placeholder="symbol, setup, tags..." />
+          </div>
+          <div>
+            <label>Result_Filter</label>
+            <select id="filterResult">
+              <option value="ALL">ALL_RECORDS</option>
+              <option value="WIN">WINS</option>
+              <option value="LOSS">LOSSES</option>
+              <option value="BE">BREAK_EVEN</option>
+            </select>
+          </div>
+          <div>
+            <label>Date_Start</label>
+            <input id="fromDate" type="date" />
+          </div>
+          <div>
+            <label>Date_End</label>
+            <input id="toDate" type="date" />
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" id="sortDateBtn" style="padding:14px;">DATE↓</button>
+            <button class="btn" id="sortRRBtn" style="padding:14px;">RR↓</button>
+            <button class="btn" id="sortSymbolBtn" style="padding:14px;">SYM↑</button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Asset</th>
+                <th>Dir</th>
+                <th>Session</th>
+                <th>Setup</th>
+                <th class="text-right">Risk</th>
+                <th class="text-right">RR</th>
+                <th class="text-right">PnL</th>
+                <th>Visual</th>
+                <th>Tags</th>
+                <th>Notes</th>
+                <th class="text-right">Cmd</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="mono dim" style="text-align:center; margin-top:20px; font-size:11px; letter-spacing:1px;">
+          [ SUPABASE_CLOUD_SYNC_ACTIVE ] // [ LOCAL_CACHE_ENABLED ] // [ ENCRYPTION: NONE ]
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">[ CLOSE ]</button>
+      <img id="modalImg" alt="Screenshot" />
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Configuration
+    const SUPABASE_URL = "https://qaehfsvyjvkkmghhjixj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhZWhmc3Z5anZra21naGhqaXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODExNTcsImV4cCI6MjA4NjA1NzE1N30.LJ-eD1XR4VADOtLpzI1EKGSboNKEYieDZiU9G1ip19s";
+
+    const LOCAL_KEY = "trade_journal_cloud_local_cache_v2";
+    const $ = (id) => document.getElementById(id);
+
+    const state = { trades: [], sort: { key: "dateTime", dir: "desc" } };
+    let sb = null;
+    let currentUser = null;
+    let formShotDataUrl = "";
+    let editingId = null;
+
+    function showAuthMsg(msg, kind = "") {
+      const el = $("authHint");
+      el.textContent = msg || "";
+      el.className = "auth-status " + (kind === "ok" ? "green" : kind === "bad" ? "red" : "dim");
+    }
+
+    function showCloudMsg(msg) {
+      const el = $("cloudHint");
+      el.textContent = msg || "";
+      if (msg) setTimeout(() => { if (el.textContent === msg) el.textContent = ""; }, 3500);
+    }
+
+    function nowISODate() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
+    function nowISOTime() { const d = new Date(); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; }
+    function uid() { return crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(16).slice(2) + "-" + Date.now().toString(16)); }
+    function parseTags(s) { return (s || "").split(",").map(t => t.trim()).filter(Boolean).slice(0, 20); }
+    function safeNum(v, f = 0) { const n = Number(v); return Number.isFinite(n) ? n : f; }
+    function escapeHtml(str) { return String(str).replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[s])); }
+    function isProbablyImageUrl(url) { return /\.(png|jpg|jpeg|webp|gif)(\?|#|$)/i.test(url); }
+    
+    function fmt(n) { 
+      if (n === "" || n == null) return ""; 
+      const num = Number(n); 
+      return Number.isFinite(num) ? (Math.round(num * 100) / 100).toString() : String(n); 
+    }
+
+    function loadLocalCache() { try { const raw = localStorage.getItem(LOCAL_KEY); state.trades = raw ? JSON.parse(raw) : []; } catch { state.trades = []; } }
+    function saveLocalCache() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify(state.trades)); } catch { } }
+
+    async function blobToCompressedDataUrl(blob, maxW = 1200, quality = 0.75) {
+      const img = new Image(); 
+      const url = URL.createObjectURL(blob);
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+      const scale = Math.min(1, maxW / img.width);
+      const w = Math.max(1, Math.round(img.width * scale));
+      const h = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement("canvas"); 
+      canvas.width = w; 
+      canvas.height = h;
+      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      return canvas.toDataURL("image/jpeg", quality);
+    }
+
+    function setFormScreenshot(dataUrl, text = "") {
+      formShotDataUrl = dataUrl || "";
+      const img = $("shotPreview"), status = $("shotStatus");
+      if (formShotDataUrl) { 
+        img.src = formShotDataUrl; 
+        img.classList.remove("hidden"); 
+        status.textContent = text || "IMAGE_BUFFERED"; 
+        status.className = "mono green";
+      } else { 
+        img.src = ""; 
+        img.classList.add("hidden"); 
+        status.textContent = "NO_IMAGE_DATA"; 
+        status.className = "mono dim";
+      }
+    }
+
+    async function handlePasteEvent(e) {
+      const items = (e.clipboardData && e.clipboardData.items) ? Array.from(e.clipboardData.items) : [];
+      const imgItem = items.find(it => it.type && it.type.startsWith("image/"));
+      if (!imgItem) return;
+      e.preventDefault();
+      const file = imgItem.getAsFile(); 
+      if (!file) return;
+      const dataUrl = await blobToCompressedDataUrl(file);
+      setFormScreenshot(dataUrl, "CLIPBOARD_CAPTURED");
+    }
+
+    function initSupabase() {
+      if (!SUPABASE_URL.startsWith("http") || SUPABASE_ANON_KEY.includes("PASTE_")) {
+        showAuthMsg("CONFIGURATION_ERROR: Invalid Supabase credentials", "bad");
+        return;
+      }
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      showAuthMsg("CONNECTION_ESTABLISHED", "ok");
+    }
+
+    async function refreshSessionUI() {
+      if (currentUser) {
+        $("whoami").textContent = `USER: ${currentUser.email}`;
+        $("whoami").className = "mono green";
+        $("signOutBtn").classList.remove("hidden");
+        $("app").classList.remove("hidden");
+        $("authCard").style.opacity = "0.6";
+      } else {
+        $("whoami").textContent = "STATUS: OFFLINE";
+        $("whoami").className = "mono dim";
+        $("signOutBtn").classList.add("hidden");
+        $("app").classList.add("hidden");
+        $("authCard").style.opacity = "1";
+      }
+    }
+
+    async function pullFromCloud() {
+      if (!sb || !currentUser) return;
+      showCloudMsg("SYNCING...");
+      const { data, error } = await sb
+        .from("trades")
+        .select("id, trade, updated_at")
+        .eq("user_id", currentUser.id)
+        .order("updated_at", { ascending: false });
+
+      if (error) { 
+        console.error(error); 
+        showAuthMsg("SYNC_FAILED: " + error.message, "bad"); 
+        showCloudMsg("ERROR"); 
+        return; 
+      }
+
+      state.trades = (data || []).map(row => {
+        const t = row.trade || {};
+        t.id = t.id || row.id;
+        return t;
+      }).sort((a, b) => new Date(b.dateTime || 0) - new Date(a.dateTime || 0));
+
+      saveLocalCache();
+      render();
+      showCloudMsg(`SYNC_OK [${new Date().toLocaleTimeString()}]`);
+    }
+
+    async function upsertTradeCloud(tradeObj) {
+      const payload = { 
+        id: tradeObj.id, 
+        user_id: currentUser.id, 
+        trade: tradeObj, 
+        updated_at: new Date().toISOString() 
+      };
+      const { error } = await sb.from("trades").upsert(payload, { onConflict: "id" });
+      if (error) throw error;
+    }
+
+    async function deleteTradeCloud(id) {
+      const { error } = await sb.from("trades").delete().eq("id", id).eq("user_id", currentUser.id);
+      if (error) throw error;
+    }
+
+    async function signIn() {
+      if (!sb) return alert("Supabase not initialized");
+      const email = $("authEmail").value.trim();
+      const password = $("authPass").value;
+      showAuthMsg("AUTHENTICATING...");
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) { 
+        console.error(error); 
+        showAuthMsg("AUTH_FAILED: " + error.message, "bad"); 
+        return; 
+      }
+      currentUser = data.user;
+      showAuthMsg("AUTHENTICATED", "ok");
+      await refreshSessionUI();
+      await pullFromCloud();
+    }
+
+    async function signUp() {
+      if (!sb) return alert("Supabase not initialized");
+      const email = $("authEmail").value.trim();
+      const password = $("authPass").value;
+      showAuthMsg("CREATING_ACCOUNT...");
+      const { error } = await sb.auth.signUp({ email, password });
+      if (error) { 
+        console.error(error); 
+        showAuthMsg("REGISTRATION_FAILED: " + error.message, "bad"); 
+        return; 
+      }
+      showAuthMsg("ACCOUNT_CREATED: Check email", "ok");
+    }
+
+    async function magicLink() {
+      if (!sb) return alert("Supabase not initialized");
+      const email = $("authEmail").value.trim();
+      if (!email) return alert("Email required");
+      showAuthMsg("SENDING_MAGIC_LINK...");
+      const { error } = await sb.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: window.location.origin + window.location.pathname }
+      });
+      if (error) { 
+        console.error(error); 
+        showAuthMsg("FAILED: " + error.message, "bad"); 
+        return; 
+      }
+      showAuthMsg("MAGIC_LINK_SENT", "ok");
+    }
+
+    async function signOut() {
+      if (!sb) return;
+      await sb.auth.signOut();
+      currentUser = null;
+      showAuthMsg("DISCONNECTED");
+      await refreshSessionUI();
+    }
+
+    async function addTrade() {
+      const date = $("date").value || nowISODate();
+      const time = $("time").value || nowISOTime();
+      const dateTime = new Date(`${date}T${time}:00`);
+      if (Number.isNaN(dateTime.getTime())) return alert("Invalid timestamp");
+      const symbol = ($("symbol").value || "").trim().toUpperCase();
+      if (!symbol) return alert("Symbol required");
+
+      const shotUrl = ($("shotUrl").value || "").trim();
+      const shotFile = $("shotFile").files && $("shotFile").files[0] ? $("shotFile").files[0] : null;
+      let shotDataUrl = formShotDataUrl || "";
+      if (shotFile) shotDataUrl = await blobToCompressedDataUrl(shotFile);
+
+      const t = {
+        id: uid(),
+        date, time,
+        dateTime: dateTime.toISOString(),
+        symbol,
+        direction: $("direction").value,
+        session: $("session").value,
+        setup: ($("setup").value || "").trim(),
+        riskR: safeNum($("riskR").value, 1),
+        result: $("result").value,
+        rr: safeNum($("rr").value, $("result").value === "LOSS" ? -1 : ($("result").value === "BE" ? 0 : 1)),
+        pl: $("pl").value === "" ? "" : String(safeNum($("pl").value, 0)),
+        shotUrl,
+        shotDataUrl,
+        tags: parseTags($("tags").value),
+        notes: ($("notes").value || "").trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      state.trades.unshift(t);
+      saveLocalCache();
+      render();
+
+      try { 
+        showCloudMsg("UPLOADING..."); 
+        await upsertTradeCloud(t); 
+        showCloudMsg("UPLOAD_OK"); 
+      }
+      catch (e) { 
+        console.error(e); 
+        alert("Cloud error: " + e.message); 
+        showCloudMsg("UPLOAD_FAIL"); 
+      }
+
+      clearForm(false);
+    }
+
+    function clearForm(resetDT = true) {
+      if (resetDT) { $("date").value = nowISODate(); $("time").value = nowISOTime(); }
+      $("symbol").value = ""; 
+      $("setup").value = ""; 
+      $("riskR").value = "1"; 
+      $("result").value = "WIN";
+      $("rr").value = ""; 
+      $("pl").value = ""; 
+      $("tags").value = ""; 
+      $("shotUrl").value = ""; 
+      $("shotFile").value = "";
+      $("notes").value = ""; 
+      $("direction").value = "LONG"; 
+      $("session").value = "ASIA";
+      setFormScreenshot("", "");
+    }
+
+    async function delTrade(id) {
+      if (!confirm("Confirm deletion?")) return;
+      state.trades = state.trades.filter(t => t.id !== id);
+      saveLocalCache(); 
+      render();
+      try { 
+        showCloudMsg("DELETING..."); 
+        await deleteTradeCloud(id); 
+        showCloudMsg("DELETED"); 
+      }
+      catch (e) { 
+        console.error(e); 
+        alert("Delete failed: " + e.message); 
+      }
+    }
+
+    async function deleteScreenshotOnly(id) {
+      const t = state.trades.find(x => x.id === id); 
+      if (!t) return;
+      if (!confirm("Remove image data?")) return;
+      t.shotUrl = ""; 
+      t.shotDataUrl = "";
+      saveLocalCache(); 
+      render();
+      try { 
+        showCloudMsg("UPDATING..."); 
+        await upsertTradeCloud(t); 
+        showCloudMsg("UPDATED"); 
+      }
+      catch (e) { 
+        console.error(e); 
+        alert("Update failed: " + e.message); 
+      }
+    }
+
+    function startEdit(id) {
+      const t = state.trades.find(x => x.id === id); 
+      if (!t) return;
+      editingId = id;
+      $("date").value = t.date; 
+      $("time").value = t.time; 
+      $("symbol").value = t.symbol;
+      $("direction").value = t.direction; 
+      $("session").value = t.session; 
+      $("setup").value = t.setup;
+      $("riskR").value = t.riskR; 
+      $("result").value = t.result; 
+      $("rr").value = t.rr; 
+      $("pl").value = t.pl;
+      $("tags").value = (t.tags || []).join(", "); 
+      $("shotUrl").value = t.shotUrl || ""; 
+      $("shotFile").value = "";
+      $("notes").value = t.notes || "";
+      setFormScreenshot(t.shotDataUrl || "", t.shotDataUrl ? "LOADED" : "");
+      $("addBtn").textContent = "[ UPDATE_ENTRY ]";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function saveEdit() {
+      const t = state.trades.find(x => x.id === editingId); 
+      if (!t) return;
+      const date = $("date").value || nowISODate();
+      const time = $("time").value || nowISOTime();
+      const dateTime = new Date(`${date}T${time}:00`); 
+      if (Number.isNaN(dateTime.getTime())) return alert("Invalid timestamp");
+      const symbol = ($("symbol").value || "").trim().toUpperCase(); 
+      if (!symbol) return alert("Symbol required");
+
+      const shotUrl = ($("shotUrl").value || "").trim();
+      const shotFile = $("shotFile").files && $("shotFile").files[0] ? $("shotFile").files[0] : null;
+      let shotDataUrl = formShotDataUrl || t.shotDataUrl || "";
+      if (shotFile) shotDataUrl = await blobToCompressedDataUrl(shotFile);
+
+      Object.assign(t, {
+        date, time, 
+        dateTime: dateTime.toISOString(), 
+        symbol,
+        direction: $("direction").value,
+        session: $("session").value,
+        setup: ($("setup").value || "").trim(),
+        riskR: safeNum($("riskR").value, 1),
+        result: $("result").value,
+        rr: safeNum($("rr").value, $("result").value === "LOSS" ? -1 : ($("result").value === "BE" ? 0 : 1)),
+        pl: $("pl").value === "" ? "" : String(safeNum($("pl").value, 0)),
+        tags: parseTags($("tags").value),
+        shotUrl,
+        shotDataUrl,
+        notes: ($("notes").value || "").trim()
+      });
+
+      saveLocalCache(); 
+      render();
+      try { 
+        showCloudMsg("SAVING..."); 
+        await upsertTradeCloud(t); 
+        showCloudMsg("SAVED"); 
+      }
+      catch (e) { 
+        console.error(e); 
+        alert("Save failed: " + e.message); 
+      }
+
+      editingId = null; 
+      $("addBtn").textContent = "[ COMMIT_ENTRY ]"; 
+      clearForm(false);
+    }
+
+    function filteredTrades() {
+      const q = ($("search").value || "").trim().toLowerCase();
+      const fr = $("filterResult").value;
+      const from = $("fromDate").value ? new Date($("fromDate").value + "T00:00:00").getTime() : null;
+      const to = $("toDate").value ? new Date($("toDate").value + "T23:59:59").getTime() : null;
+
+      let list = [...state.trades];
+
+      const { key, dir } = state.sort;
+      list.sort((a, b) => {
+        let av, bv;
+        if (key === "dateTime") { av = new Date(a.dateTime).getTime(); bv = new Date(b.dateTime).getTime(); }
+        else if (key === "rr") { av = Number(a.rr); bv = Number(b.rr); }
+        else if (key === "symbol") { av = a.symbol; bv = b.symbol; }
+        else { av = a[key]; bv = b[key]; }
+
+        if (typeof av === "string" && typeof bv === "string") 
+          return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+        return dir === "asc" ? (av - bv) : (bv - av);
+      });
+
+      if (fr !== "ALL") list = list.filter(t => t.result === fr);
+      if (from !== null) list = list.filter(t => new Date(t.dateTime).getTime() >= from);
+      if (to !== null) list = list.filter(t => new Date(t.dateTime).getTime() <= to);
+
+      if (q) {
+        list = list.filter(t => {
+          const hay = [
+            t.symbol, t.direction, t.session, t.setup, t.notes, 
+            (t.tags || []).join(" "), String(t.rr), String(t.pl), String(t.shotUrl || "")
+          ].join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+      }
+      return list;
+    }
+
+    function renderKPIs(list) {
+      const total = list.length;
+      const wins = list.filter(t => t.result === "WIN").length;
+      const losses = list.filter(t => t.result === "LOSS").length;
+      const be = list.filter(t => t.result === "BE").length;
+      const winRate = total ? (wins / total) * 100 : 0;
+      const rrSum = list.reduce((a, t) => a + (Number.isFinite(Number(t.rr)) ? Number(t.rr) : 0), 0);
+
+      let peak = 0, eq = 0, maxDD = 0;
+      for (const t of [...list].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))) {
+        const r = Number.isFinite(Number(t.rr)) ? Number(t.rr) : 0;
+        eq += r; 
+        if (eq > peak) peak = eq;
+        const dd = peak - eq; 
+        if (dd > maxDD) maxDD = dd;
+      }
+
+      const cards = [
+        { t: "Total_Operations", v: String(total), sub: `${wins}W ${losses}L ${be}BE`, cls: "" },
+        { t: "Win_Rate", v: fmt(winRate) + "%", sub: "Success_Ratio", cls: winRate >= 50 ? "positive" : "negative" },
+        { t: "Net_RR", v: fmt(rrSum), sub: "R-Multiples", cls: rrSum >= 0 ? "positive" : "negative" },
+        { t: "Max_Drawdown", v: fmt(maxDD), sub: "Peak_to_Trough", cls: "negative" }
+      ];
+
+      $("kpis").innerHTML = cards.map(c => `
+        <div class="kpi-card ${c.cls}">
+          <div class="kpi-label">${c.t}</div>
+          <div class="kpi-value">${c.v}</div>
+          <div class="kpi-sub">${c.sub}</div>
+        </div>
+      `).join("");
+    }
+
+    function render() {
+      const list = filteredTrades();
+      renderKPIs(list);
+
+      const rows = list.map(t => {
+        const dt = new Date(t.dateTime);
+        const tags = (t.tags || []).slice(0, 8).map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("");
+        const notes = t.notes ? escapeHtml(t.notes.substring(0, 100)) + (t.notes.length > 100 ? "..." : "") : `<span class="dim">—</span>`;
+        const setup = t.setup ? escapeHtml(t.setup) : `<span class="dim">—</span>`;
+        const pl = (t.pl === "" ? "" : fmt(t.pl));
+        const plClass = Number(t.pl) > 0 ? "green" : Number(t.pl) < 0 ? "red" : "dim";
+
+        let shotHtml = `<span class="dim">—</span>`;
+        if (t.shotDataUrl || t.shotUrl) {
+          const thumbSrc = t.shotDataUrl ? t.shotDataUrl : (t.shotUrl && isProbablyImageUrl(t.shotUrl) ? t.shotUrl : "");
+          const thumb = thumbSrc
+            ? `<img class="thumb" src="${escapeHtml(thumbSrc)}" onclick="openShot('${t.id}')" loading="lazy" />`
+            : `<span class="dim mono" style="font-size:10px;">NO_PREVIEW</span>`;
+          const links = `
+            <div class="link-row">
+              ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" rel="noreferrer">OPEN_URL</a>` : ""}
+              ${(t.shotDataUrl || (t.shotUrl && isProbablyImageUrl(t.shotUrl))) ? `<a href="#" onclick="openShot('${t.id}');return false;">PREVIEW</a>` : ""}
+              <a href="#" class="danger" onclick="deleteScreenshotOnly('${t.id}');return false;">PURGE_IMG</a>
+            </div>`;
+          shotHtml = `<div>${thumb}${links}</div>`;
+        }
+
+        const dirClass = t.direction === "LONG" ? "long" : "short";
+        const resultClass = t.result === "WIN" ? "win" : t.result === "LOSS" ? "loss" : "be";
+
+        return `
+          <tr>
+            <td>
+              <div class="bright">${dt.toLocaleDateString()}</div>
+              <div class="dim mono" style="font-size:11px;">${dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            </td>
+            <td><strong class="cyan">${escapeHtml(t.symbol)}</strong></td>
+            <td><span class="badge ${dirClass}">${t.direction}</span></td>
+            <td class="mono">${escapeHtml(t.session)}</td>
+            <td>${setup}</td>
+            <td class="text-right mono">${fmt(t.riskR)}</td>
+            <td class="text-right">
+              <span class="badge ${resultClass}">${t.result === "BE" ? "BE" : t.result}</span>
+              <div class="mono ${Number(t.rr) >= 0 ? 'green' : 'red'}" style="font-size:11px; margin-top:4px;">${fmt(t.rr)}R</div>
+            </td>
+            <td class="text-right mono ${plClass}">${pl === "" ? `<span class="dim">—</span>` : pl}</td>
+            <td>${shotHtml}</td>
+            <td>${tags || `<span class="dim">—</span>`}</td>
+            <td style="max-width:250px; font-size:12px; color:var(--text-dim);">${notes}</td>
+            <td class="text-right">
+              <button class="btn" style="padding:6px 12px; font-size:10px;" onclick="startEdit('${t.id}')">[EDIT]</button>
+              <button class="btn danger" style="padding:6px 12px; font-size:10px;" onclick="delTrade('${t.id}')">[DEL]</button>
+            </td>
+          </tr>`;
+      }).join("");
+
+      $("tbody").innerHTML = rows || `<tr><td colspan="12" style="text-align:center; padding:60px; color:var(--text-dim); font-family:'JetBrains Mono'; letter-spacing:2px;">[ NO_DATA_FOUND ]</td></tr>`;
+    }
+
+    function openShot(id) {
+      const t = state.trades.find(x => x.id === id); 
+      if (!t) return;
+      if (t.shotDataUrl) { 
+        $("modalImg").src = t.shotDataUrl; 
+        $("modal").style.display = "flex"; 
+        return; 
+      }
+      if (t.shotUrl && isProbablyImageUrl(t.shotUrl)) { 
+        $("modalImg").src = t.shotUrl; 
+        $("modal").style.display = "flex"; 
+        return; 
+      }
+      if (t.shotUrl) window.open(t.shotUrl, "_blank", "noreferrer");
+    }
+
+    function closeModal() { 
+      $("modal").style.display = "none"; 
+      $("modalImg").src = ""; 
+    }
+
+    function setSort(key) {
+      if (state.sort.key === key) state.sort.dir = (state.sort.dir === "desc" ? "asc" : "desc");
+      else { 
+        state.sort.key = key; 
+        state.sort.dir = (key === "symbol" ? "asc" : "desc"); 
+      }
+      render(); 
+      updateSortButtons();
+    }
+
+    function updateSortButtons() {
+      const s = state.sort; 
+      const arrow = s.dir === "desc" ? "↓" : "↑";
+      $("sortDateBtn").textContent = `DATE${s.key === "dateTime" ? arrow : "↓"}`;
+      $("sortRRBtn").textContent = `RR${s.key === "rr" ? arrow : "↓"}`;
+      $("sortSymbolBtn").textContent = `SYM${s.key === "symbol" ? (s.dir === "asc" ? "↑" : "↓") : "↑"}`;
+    }
+
+    // CSV Functions
+    function toCSV(trades) {
+      const headers = ["date", "time", "symbol", "direction", "session", "setup", "riskR", "result", "rr", "pl", "shotUrl", "shotDataUrl", "tags", "notes", "createdAt", "id"];
+      const lines = [headers.join(",")];
+      for (const t of trades) {
+        const row = headers.map(h => {
+          let v = t[h]; 
+          if (h === "tags") v = (t.tags || []).join("|");
+          if (v == null) v = ""; 
+          v = String(v);
+          if (/[",\n]/.test(v)) v = '"' + v.replaceAll('"', '""') + '"';
+          return v;
+        }).join(",");
+        lines.push(row);
+      }
+      return lines.join("\n");
+    }
+
+    function download(filename, text) {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([text], { type: "text/csv" }));
+      a.download = filename;
+      document.body.appendChild(a); 
+      a.click(); 
+      a.remove();
+    }
+
+    function exportCSV() {
+      const csv = toCSV(state.trades);
+      const stamp = new Date().toISOString().slice(0, 10);
+      download(`NEXUS_TRADELOG_${stamp}.csv`, csv);
+    }
+
+    function parseCSV(text) {
+      const rows = []; 
+      let i = 0, field = "", row = [], inQuotes = false;
+      while (i < text.length) {
+        const c = text[i];
+        if (inQuotes) {
+          if (c === '"') { 
+            if (text[i + 1] === '"') { 
+              field += '"'; 
+              i += 2; 
+              continue; 
+            } 
+            inQuotes = false; 
+            i++; 
+            continue; 
+          }
+          field += c; 
+          i++; 
+          continue;
+        } else {
+          if (c === '"') { 
+            inQuotes = true; 
+            i++; 
+            continue; 
+          }
+          if (c === ",") { 
+            row.push(field); 
+            field = ""; 
+            i++; 
+            continue; 
+          }
+          if (c === "\n") { 
+            row.push(field); 
+            rows.push(row); 
+            row = []; 
+            field = ""; 
+            i++; 
+            continue; 
+          }
+          if (c === "\r") { 
+            i++; 
+            continue; 
+          }
+          field += c; 
+          i++; 
+          continue;
+        }
+      }
+      row.push(field); 
+      rows.push(row);
+      return rows.filter(r => r.some(x => x !== ""));
+    }
+
+    async function importCSV(file) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const rows = parseCSV(String(reader.result || ""));
+        if (rows.length < 2) return alert("Empty or invalid CSV");
+        const headers = rows[0].map(h => h.trim());
+        const imported = rows.slice(1).map(cols => {
+          const t = {}; 
+          for (let idx = 0; idx < headers.length; idx++) t[headers[idx]] = cols[idx] ?? "";
+          const tags = String(t.tags || "").split("|").map(x => x.trim()).filter(Boolean);
+          const date = t.date || nowISODate(); 
+          const time = t.time || "00:00";
+          const dt = new Date(`${date}T${time}:00`); 
+          const iso = Number.isNaN(dt.getTime()) ? new Date().toISOString() : dt.toISOString();
+          return {
+            id: t.id || uid(),
+            date, time, 
+            dateTime: t.dateTime || iso,
+            symbol: String(t.symbol || "").trim().toUpperCase() || "UNKNOWN",
+            direction: (t.direction === "SHORT" ? "SHORT" : "LONG"),
+            session: ["ASIA", "LONDON", "NEWYORK", "OTHER"].includes(t.session) ? t.session : "OTHER",
+            setup: String(t.setup || ""),
+            riskR: safeNum(t.riskR, 1),
+            result: ["WIN", "LOSS", "BE"].includes(t.result) ? t.result : "BE",
+            rr: safeNum(t.rr, 0),
+            pl: (t.pl === "" ? "" : String(safeNum(t.pl, 0))),
+            shotUrl: String(t.shotUrl || ""),
+            shotDataUrl: String(t.shotDataUrl || ""),
+            tags,
+            notes: String(t.notes || ""),
+            createdAt: t.createdAt || new Date().toISOString()
+          };
+        });
+
+        const byId = new Map(state.trades.map(t => [t.id, t]));
+        for (const t of imported) byId.set(t.id, t);
+        state.trades = Array.from(byId.values()).sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+        saveLocalCache(); 
+        render();
+
+        showCloudMsg("BULK_UPLOAD...");
+        for (const t of imported) await upsertTradeCloud(t);
+        showCloudMsg("IMPORT_COMPLETE");
+      };
+      reader.readAsText(file);
+    }
+
+    // Event Listeners
+    window.openShot = openShot; 
+    window.closeModal = closeModal; 
+    window.startEdit = startEdit;
+    window.delTrade = delTrade; 
+    window.deleteScreenshotOnly = deleteScreenshotOnly;
+
+    $("exportBtn").onclick = exportCSV;
+    $("importInput").addEventListener("change", (e) => { 
+      const f = e.target.files && e.target.files[0]; 
+      if (f) importCSV(f); 
+      e.target.value = ""; 
+    });
+    $("wipeBtn").onclick = () => { 
+      if (!confirm("Purge local cache? Cloud data persists.")) return; 
+      localStorage.removeItem(LOCAL_KEY); 
+      state.trades = []; 
+      render(); 
+    };
+
+    $("signInBtn").onclick = signIn;
+    $("signUpBtn").onclick = signUp;
+    $("magicBtn").onclick = magicLink;
+    $("signOutBtn").onclick = signOut;
+
+    $("addBtn").onclick = async () => { 
+      if (!currentUser) return alert("Authentication required"); 
+      if (editingId) return saveEdit(); 
+      return addTrade(); 
+    };
+    $("clearFormBtn").onclick = () => { 
+      editingId = null; 
+      $("addBtn").textContent = "[ COMMIT_ENTRY ]"; 
+      clearForm(false); 
+    };
+    $("syncBtn").onclick = async () => { 
+      if (!currentUser) return alert("Authentication required"); 
+      await pullFromCloud(); 
+    };
+
+    ["search", "filterResult", "fromDate", "toDate"].forEach(id => { 
+      $(id).addEventListener("input", render); 
+      $(id).addEventListener("change", render); 
+    });
+    $("sortDateBtn").onclick = () => setSort("dateTime");
+    $("sortRRBtn").onclick = () => setSort("rr");
+    $("sortSymbolBtn").onclick = () => setSort("symbol");
+
+    $("pasteBox").addEventListener("paste", handlePasteEvent);
+    document.addEventListener("paste", handlePasteEvent);
+    $("shotFile").addEventListener("change", async (e) => { 
+      const file = e.target.files && e.target.files[0] ? e.target.files[0] : null; 
+      if (!file) return; 
+      const d = await blobToCompressedDataUrl(file); 
+      setFormScreenshot(d, "FILE_UPLOADED"); 
+    });
+    $("clearShotBtn").addEventListener("click", () => { 
+      $("shotFile").value = ""; 
+      setFormScreenshot("", ""); 
+    });
+
+    // Initialize
+    loadLocalCache();
+    $("date").value = nowISODate(); 
+    $("time").value = nowISOTime(); 
+    $("riskR").value = "1";
+    updateSortButtons(); 
+    render();
+    initSupabase();
+
+    (async () => {
+      if (!sb) return;
+      const { data } = await sb.auth.getSession();
+      currentUser = data?.session?.user || null;
+      await refreshSessionUI();
+
+      sb.auth.onAuthStateChange(async (_event, session) => {
+        currentUser = session?.user || null;
+        await refreshSessionUI();
+        if (currentUser) await pullFromCloud();
+      });
+
+      if (currentUser) await pullFromCloud();
+    })();
+  </script>
+</body>
+</html>
