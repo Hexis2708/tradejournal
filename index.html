@@ -3,40 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Citrus Trade Journal</title>
+  <title>Trading Journal</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
     :root {
-      --primary-green: #10b981;
-      --primary-green-light: #34d399;
-      --primary-green-dark: #059669;
-      --primary-blue: #0ea5e9;
-      --primary-blue-light: #7dd3fc;
-      --accent-yellow: #fbbf24;
-      --accent-lime: #a3e635;
-      
-      --bg-primary: #f0fdf4;
-      --bg-secondary: #ffffff;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f7f6f3;
+      --bg-hover: #f1f1ef;
       --bg-card: #ffffff;
-      --bg-input: #f8fafc;
       
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --text-primary: #37352f;
+      --text-secondary: #6b6b6b;
+      --text-muted: #9ca3af;
       
-      --border-light: #e2e8f0;
-      --border-medium: #cbd5e1;
+      --border-light: #e3e2e0;
+      --border-medium: #d1d1d1;
       
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --shadow-citrus: 0 10px 40px -10px rgba(16, 185, 129, 0.3);
+      --accent-blue: #2eaadc;
+      --accent-green: #4dabf7;
+      --success: #40c057;
+      --danger: #fa5252;
+      --warning: #fab005;
       
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.05);
+      
+      --radius-sm: 3px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
     }
 
     * { 
@@ -53,7 +49,7 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 50%, #ecfdf5 100%);
+      background: var(--bg-secondary);
       color: var(--text-primary);
       min-height: 100vh;
       line-height: 1.5;
@@ -67,185 +63,113 @@
     }
 
     @media (min-width: 768px) {
-      .wrap { padding: 24px; }
+      .wrap { padding: 32px 24px; }
     }
 
-    @media (min-width: 1024px) {
-      .wrap { padding: 32px; }
-    }
-
+    /* Notion-style header */
     header {
-      background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-      margin: -16px -16px 24px -16px;
-      padding: 24px 16px;
-      position: relative;
-      overflow: hidden;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
     }
 
     @media (min-width: 768px) {
       header {
-        margin: -24px -24px 32px -24px;
-        padding: 32px 24px;
-        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+        margin-bottom: 32px;
+        padding-bottom: 24px;
       }
     }
 
-    @media (min-width: 1024px) {
-      header {
-        margin: -32px -32px 40px -32px;
-        padding: 40px 32px;
-      }
-    }
-
-    header::before,
-    header::after {
-      content: '';
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    header::before {
-      width: 200px;
-      height: 200px;
-      top: -100px;
-      right: -50px;
-    }
-
-    header::after {
-      width: 100px;
-      height: 100px;
-      bottom: -30px;
-      left: 10%;
-    }
-
-    .brand {
-      position: relative;
-      z-index: 1;
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .brand h1 {
-      font-size: 28px;
-      font-weight: 800;
-      color: white;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
       letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     @media (min-width: 768px) {
-      .brand h1 { font-size: 36px; }
-    }
-
-    .brand h1::before {
-      content: '📊';
-      font-size: 32px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      .brand h1 { font-size: 40px; }
     }
 
     .sub {
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--text-secondary);
       font-size: 14px;
-      margin-top: 8px;
-      font-weight: 500;
+      margin-top: 4px;
     }
 
     .header-actions {
       display: flex;
       gap: 8px;
-      margin-top: 20px;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
     }
 
-    @media (min-width: 640px) {
-      .header-actions {
-        position: absolute;
-        top: 24px;
-        right: 16px;
-        margin-top: 0;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .header-actions { right: 24px; top: 32px; }
-    }
-
+    /* Notion-style buttons */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 16px;
-      border-radius: 100px;
-      border: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-medium);
+      background: var(--bg-card);
+      color: var(--text-primary);
       font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       white-space: nowrap;
       touch-action: manipulation;
     }
 
-    @media (min-width: 768px) {
-      .btn { padding: 12px 20px; font-size: 14px; }
+    .btn:hover {
+      background: var(--bg-hover);
     }
 
     .btn:active {
-      transform: scale(0.96);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--border-light);
     }
 
     .btn-primary {
-      background: white;
-      color: var(--primary-green);
-      box-shadow: var(--shadow-md);
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: white;
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text-secondary);
-      border: 1.5px solid var(--border-medium);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary-green);
-      color: var(--primary-green);
-      background: var(--bg-primary);
+      background: #2589b0;
+      border-color: #2589b0;
     }
 
     .btn-danger {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1.5px solid #fecaca;
+      color: var(--danger);
+      border-color: #ffc9c9;
     }
 
     .btn-danger:hover {
-      background: #fee2e2;
+      background: #fff5f5;
     }
 
     .btn-ghost {
+      border-color: transparent;
       background: transparent;
       color: var(--text-secondary);
     }
 
+    .btn-ghost:hover {
+      background: var(--bg-hover);
+    }
+
+    /* Cards */
     .card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -267,32 +191,25 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-light);
     }
 
     .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
+      color: var(--text-secondary);
     }
 
     .card-title {
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-primary);
     }
 
-    .card-subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
+    /* Form Grid */
     .form-grid {
       display: grid;
       gap: 16px;
@@ -326,103 +243,93 @@
       .form-col-three { grid-column: span 3; }
     }
 
+    /* Notion-style inputs */
     label {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       color: var(--text-secondary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border-light);
-      background: var(--bg-input);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-medium);
+      background: var(--bg-card);
       color: var(--text-primary);
       font-size: 15px;
       font-family: inherit;
-      transition: all 0.2s;
+      transition: all 0.15s;
       -webkit-appearance: none;
+    }
+
+    input:hover, select:hover, textarea:hover {
+      border-color: #d1d1d1;
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--primary-green);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-      background: white;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.1);
     }
 
     select {
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
+      background-position: right 10px center;
+      padding-right: 32px;
     }
 
     textarea {
       min-height: 100px;
       resize: vertical;
+      line-height: 1.6;
     }
 
+    /* Paste zone */
     .paste-zone {
-      border: 2px dashed var(--border-medium);
-      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border-medium);
+      border-radius: var(--radius-md);
       padding: 24px;
       text-align: center;
-      background: var(--bg-input);
-      transition: all 0.2s;
-      position: relative;
+      background: var(--bg-secondary);
+      transition: all 0.15s;
+      cursor: pointer;
     }
 
-    .paste-zone.active {
-      border-color: var(--primary-green);
-      background: #f0fdf4;
+    .paste-zone:hover, .paste-zone.active {
+      border-color: var(--accent-blue);
+      background: rgba(46, 170, 220, 0.04);
     }
 
     .paste-zone.has-image {
-      border-color: var(--primary-green);
-      background: #f0fdf4;
       border-style: solid;
+      border-color: var(--success);
+      background: rgba(64, 192, 87, 0.04);
     }
 
     .paste-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 12px;
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 8px;
+      color: var(--text-muted);
       font-size: 24px;
     }
 
     .paste-text {
       color: var(--text-secondary);
       font-size: 14px;
-      margin-bottom: 8px;
     }
 
     .paste-hint {
-      display: inline-flex;
-      gap: 4px;
-      align-items: center;
       font-size: 12px;
       color: var(--text-muted);
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .kbd {
-      padding: 2px 8px;
-      background: white;
-      border: 1px solid var(--border-medium);
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 11px;
-      font-weight: 600;
+      margin-top: 4px;
     }
 
     .mobile-upload-btn {
@@ -430,20 +337,19 @@
       align-items: center;
       gap: 6px;
       margin-top: 12px;
-      padding: 10px 20px;
-      background: white;
-      border: 1.5px solid var(--primary-green);
-      color: var(--primary-green);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 600;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      position: relative;
     }
 
     .mobile-upload-btn:hover {
-      background: var(--primary-green);
-      color: white;
+      background: var(--bg-hover);
     }
 
     .mobile-upload-btn input {
@@ -465,20 +371,19 @@
     }
 
     .preview-img {
-      width: 100%;
-      max-width: 280px;
-      height: 160px;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 200px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
-      border: 2px solid white;
+      border: 1px solid var(--border-light);
     }
 
+    /* KPIs - Notion database style */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     @media (min-width: 640px) {
@@ -489,48 +394,22 @@
     }
 
     .kpi-card {
-      background: white;
-      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
       padding: 16px;
-      box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
-    }
-
-    .kpi-card.negative::before {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-    }
-
-    .kpi-card.positive::before {
-      background: linear-gradient(90deg, var(--primary-green), var(--accent-lime));
     }
 
     .kpi-label {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
 
     .kpi-value {
       font-size: 24px;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--text-primary);
-      margin-top: 4px;
-      letter-spacing: -0.5px;
     }
 
     @media (min-width: 768px) {
@@ -541,9 +420,9 @@
       font-size: 12px;
       color: var(--text-secondary);
       margin-top: 4px;
-      font-weight: 500;
     }
 
+    /* Filters */
     .filter-bar {
       display: flex;
       gap: 12px;
@@ -562,12 +441,6 @@
       flex-shrink: 0;
     }
 
-    .filter-bar input,
-    .filter-bar select {
-      width: auto;
-      min-width: 140px;
-    }
-
     @media (min-width: 768px) {
       .filter-bar {
         display: grid;
@@ -575,19 +448,13 @@
         overflow: visible;
         padding-bottom: 0;
       }
-      
-      .filter-bar input,
-      .filter-bar select {
-        width: 100%;
-        min-width: auto;
-      }
     }
 
+    /* Table */
     .table-wrap {
-      background: white;
-      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
       overflow: hidden;
-      box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
     }
 
@@ -603,7 +470,6 @@
       tbody tr {
         padding: 16px;
         border-bottom: 1px solid var(--border-light);
-        position: relative;
       }
       
       tbody tr:last-child {
@@ -621,9 +487,9 @@
       
       td::before {
         content: attr(data-label);
-        font-weight: 600;
+        font-weight: 500;
         color: var(--text-muted);
-        font-size: 12px;
+        font-size: 11px;
         text-transform: uppercase;
       }
       
@@ -638,8 +504,8 @@
       }
       
       .trade-date {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 16px;
+        font-weight: 600;
         color: var(--text-primary);
       }
       
@@ -658,25 +524,25 @@
       
       th {
         text-align: left;
-        padding: 16px;
+        padding: 12px 16px;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
         color: var(--text-muted);
-        background: var(--bg-input);
+        background: var(--bg-secondary);
         border-bottom: 1px solid var(--border-light);
         white-space: nowrap;
       }
       
       td {
-        padding: 16px;
+        padding: 12px 16px;
         border-bottom: 1px solid var(--border-light);
         color: var(--text-secondary);
       }
       
       tr:hover td {
-        background: var(--bg-input);
+        background: var(--bg-hover);
       }
       
       tr:last-child td {
@@ -684,54 +550,53 @@
       }
     }
 
+    /* Status badges */
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 100px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
       font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
+      font-weight: 500;
     }
 
     .badge-win {
-      background: #dcfce7;
-      color: var(--primary-green-dark);
+      background: rgba(64, 192, 87, 0.1);
+      color: #2b8a3e;
     }
 
     .badge-loss {
-      background: #fee2e2;
-      color: #991b1b;
+      background: rgba(250, 82, 82, 0.1);
+      color: #c92a2a;
     }
 
     .badge-be {
-      background: #fef9c3;
-      color: #854d0e;
+      background: rgba(250, 176, 5, 0.1);
+      color: #e67700;
     }
 
     .badge-long {
-      background: #dbeafe;
-      color: #1e40af;
+      background: rgba(77, 171, 247, 0.1);
+      color: #1971c2;
     }
 
     .badge-short {
-      background: #fce7f3;
-      color: #9d174d;
+      background: rgba(250, 82, 82, 0.1);
+      color: #c92a2a;
     }
 
+    /* Tags */
     .tag {
       display: inline-block;
-      padding: 4px 10px;
-      background: var(--bg-input);
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 600;
+      padding: 2px 8px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
       color: var(--text-secondary);
       margin: 2px;
-      border: 1px solid var(--border-light);
     }
 
+    /* Thumbnails */
     .thumb {
       width: 60px;
       height: 40px;
@@ -739,11 +604,11 @@
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-light);
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: opacity 0.15s;
     }
 
     .thumb:hover {
-      transform: scale(1.1);
+      opacity: 0.8;
     }
 
     @media (min-width: 768px) {
@@ -753,22 +618,12 @@
       }
     }
 
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
+    /* Modal */
     #modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.75);
       z-index: 1000;
       padding: 20px;
       align-items: center;
@@ -779,51 +634,41 @@
       max-width: 90vw;
       max-height: 90vh;
       position: relative;
+      background: var(--bg-card);
+      padding: 16px;
+      border-radius: var(--radius-lg);
     }
 
     .modal-img {
       max-width: 100%;
       max-height: 80vh;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-sm);
     }
 
     .modal-close {
       position: absolute;
-      top: -50px;
+      top: -40px;
       right: 0;
       background: white;
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
-      box-shadow: var(--shadow-md);
     }
 
+    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
       color: var(--text-muted);
     }
 
-    .empty-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px;
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      opacity: 0.5;
-    }
-
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -831,14 +676,14 @@
       transform: translateX(-50%) translateY(100px);
       background: var(--text-primary);
       color: white;
-      padding: 12px 24px;
-      border-radius: 100px;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
       font-size: 14px;
       font-weight: 500;
       box-shadow: var(--shadow-lg);
       z-index: 1001;
       opacity: 0;
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
 
     .toast.show {
@@ -847,53 +692,45 @@
     }
 
     .toast.success {
-      background: var(--primary-green);
+      background: var(--success);
     }
 
     .toast.error {
-      background: #ef4444;
+      background: var(--danger);
     }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-    }
-
-    .status-online { background: var(--primary-green); }
-    .status-offline { background: var(--text-muted); }
-
+    /* Utility */
     .hidden { display: none !important; }
     .text-right { text-align: right; }
-    .font-mono { font-family: 'SF Mono', monospace; }
+    .font-mono { font-family: 'SF Mono', Monaco, monospace; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">
-        <h1>Citrus Trade</h1>
-        <div class="sub">Fresh trading journal • Cloud sync • Mobile ready</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-secondary" id="exportBtn">Export</button>
-        <label class="btn btn-primary" style="cursor:pointer;">
-          Import
-          <input id="importInput" type="file" accept=".csv,text/csv" style="display:none" />
-        </label>
-        <button class="btn btn-danger" id="wipeBtn">Reset</button>
+      <div class="header-top">
+        <div class="brand">
+          <h1>Trading Journal</h1>
+          <div class="sub">Log, analyze, and improve your trades</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn" id="exportBtn">Export CSV</button>
+          <label class="btn" style="cursor:pointer;">
+            Import CSV
+            <input id="importInput" type="file" accept=".csv,text/csv" style="display:none" />
+          </label>
+          <button class="btn btn-danger" id="wipeBtn">Reset</button>
+        </div>
       </div>
     </header>
 
     <div class="card" id="authCard">
       <div class="card-header">
         <div class="card-icon">🔐</div>
-        <div>
-          <div class="card-title">Cloud Sync</div>
-          <div class="card-subtitle" id="authHint">Connect to access your trades anywhere</div>
-        </div>
+        <div class="card-title">Cloud Sync</div>
+      </div>
+      <div id="authHint" style="margin-bottom:16px; color:var(--text-secondary); font-size:14px;">
+        Sign in to sync across devices
       </div>
       
       <div class="form-grid">
@@ -905,26 +742,22 @@
           <label>Password</label>
           <input id="authPass" type="password" placeholder="••••••••" />
         </div>
-        <div class="form-col-full" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <div class="form-col-full" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
           <button class="btn btn-primary" id="signInBtn">Sign In</button>
-          <button class="btn btn-outline" id="signUpBtn">Create Account</button>
+          <button class="btn" id="signUpBtn">Create Account</button>
           <button class="btn btn-ghost" id="magicBtn">Magic Link</button>
           <button class="btn btn-ghost hidden" id="signOutBtn">Sign Out</button>
-          <span style="margin-left:auto; font-size:13px; color:var(--text-muted);" id="whoami">
-            <span class="status-dot status-offline"></span>Offline
-          </span>
+          <span style="margin-left:auto; font-size:13px; color:var(--text-muted);" id="whoami">Offline</span>
         </div>
       </div>
     </div>
 
     <div id="app" class="hidden">
+      <!-- Entry Form -->
       <div class="card">
         <div class="card-header">
-          <div class="card-icon">✏️</div>
-          <div>
-            <div class="card-title">New Trade</div>
-            <div class="card-subtitle">Log your setup and results</div>
-          </div>
+          <div class="card-icon">➕</div>
+          <div class="card-title">New Trade</div>
         </div>
 
         <div class="form-grid">
@@ -958,8 +791,8 @@
             </select>
           </div>
           <div class="form-col-half">
-            <label>Setup Pattern</label>
-            <input id="setup" placeholder="e.g. FVG, Order Block" />
+            <label>Setup</label>
+            <input id="setup" placeholder="FVG, Order Block, etc." />
           </div>
 
           <div class="form-col-quarter">
@@ -975,7 +808,7 @@
             </select>
           </div>
           <div class="form-col-quarter">
-            <label>RR Achieved</label>
+            <label>RR</label>
             <input id="rr" type="number" step="0.01" placeholder="2.5" />
           </div>
           <div class="form-col-quarter">
@@ -985,28 +818,25 @@
 
           <div class="form-col-full">
             <label>Tags</label>
-            <input id="tags" placeholder="ict, liquidity, h4, manipulation (comma separated)" />
+            <input id="tags" placeholder="ict, liquidity, h4 (comma separated)" />
           </div>
 
           <div class="form-col-half">
             <label>Screenshot URL</label>
-            <input id="shotUrl" placeholder="https://tradingview.com/..." />
+            <input id="shotUrl" placeholder="https://..." />
           </div>
           <div class="form-col-half">
-            <label>Upload Image</label>
+            <label>Upload File</label>
             <input id="shotFile" type="file" accept="image/*" />
           </div>
 
           <div class="form-col-half">
-            <label>Screenshot Capture</label>
+            <label>Screenshot</label>
             <div class="paste-zone" id="pasteBox" tabindex="0">
               <div class="paste-icon" id="pasteIcon">📋</div>
-              <div class="paste-text" id="pasteText">Paste screenshot here</div>
-              <div class="paste-hint" id="pasteHint">
-                <span class="kbd">Ctrl</span>+<span class="kbd">V</span> on desktop
-              </div>
+              <div class="paste-text" id="pasteText">Paste or tap to upload</div>
+              <div class="paste-hint" id="pasteHint">Ctrl+V on desktop</div>
               
-              <!-- Mobile upload button -->
               <label class="mobile-upload-btn" id="mobileUploadBtn">
                 📁 Choose from Gallery
                 <input type="file" accept="image/*" id="mobileFileInput" />
@@ -1014,7 +844,7 @@
               
               <div class="preview-box hidden" id="previewContainer">
                 <img id="shotPreview" class="preview-img" alt="Preview" />
-                <button class="btn btn-danger btn-sm" id="clearShotBtn">Remove Image</button>
+                <button class="btn btn-danger" id="clearShotBtn" style="font-size:13px;">Remove</button>
               </div>
               <div id="shotStatus" style="margin-top:8px; font-size:12px; color:var(--text-muted);"></div>
             </div>
@@ -1022,27 +852,23 @@
 
           <div class="form-col-half">
             <label>Notes</label>
-            <textarea id="notes" placeholder="What did you see? How did you feel? What can you improve?"></textarea>
+            <textarea id="notes" placeholder="What did you observe? Emotional state?"></textarea>
           </div>
 
-          <div class="form-col-full" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-            <button class="btn btn-primary" id="addBtn" style="padding:14px 28px; font-size:16px;">
-              💾 Save Trade
-            </button>
+          <div class="form-col-full" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button class="btn btn-primary" id="addBtn" style="font-weight:600;">Save Trade</button>
             <button class="btn btn-ghost" id="clearFormBtn">Clear</button>
-            <button class="btn btn-outline" id="syncBtn">🔄 Sync</button>
+            <button class="btn" id="syncBtn">Sync Now</button>
             <span id="cloudHint" style="margin-left:auto; font-size:13px; color:var(--text-muted);"></span>
           </div>
         </div>
       </div>
 
+      <!-- Analytics -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">📊</div>
-          <div>
-            <div class="card-title">Performance</div>
-            <div class="card-subtitle">Your trading statistics</div>
-          </div>
+          <div class="card-title">Performance</div>
         </div>
 
         <div class="kpi-grid" id="kpis"></div>
@@ -1050,19 +876,19 @@
         <div style="margin-bottom:20px;">
           <label style="margin-bottom:8px;">Filters</label>
           <div class="filter-bar">
-            <input id="search" placeholder="Search trades..." style="flex:1; min-width:200px;" />
-            <select id="filterResult" style="width:120px;">
-              <option value="ALL">All Results</option>
+            <input id="search" placeholder="Search..." style="flex:1; min-width:150px;" />
+            <select id="filterResult" style="width:110px;">
+              <option value="ALL">All</option>
               <option value="WIN">Wins</option>
               <option value="LOSS">Losses</option>
-              <option value="BE">Break Even</option>
+              <option value="BE">BE</option>
             </select>
-            <input id="fromDate" type="date" style="width:140px;" />
-            <input id="toDate" type="date" style="width:140px;" />
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-outline btn-sm" id="sortDateBtn">Date ↓</button>
-              <button class="btn btn-outline btn-sm" id="sortRRBtn">RR ↓</button>
-              <button class="btn btn-outline btn-sm" id="sortSymbolBtn">A-Z</button>
+            <input id="fromDate" type="date" style="width:130px;" />
+            <input id="toDate" type="date" style="width:130px;" />
+            <div style="display:flex; gap:6px;">
+              <button class="btn" id="sortDateBtn" style="font-size:12px;">Date ↓</button>
+              <button class="btn" id="sortRRBtn" style="font-size:12px;">RR ↓</button>
+              <button class="btn" id="sortSymbolBtn" style="font-size:12px;">A-Z</button>
             </div>
           </div>
         </div>
@@ -1103,69 +929,155 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Config
+    // ==========================================
+    // CONFIGURATION - REPLACE WITH YOUR KEYS
+    // ==========================================
     const SUPABASE_URL = "https://qaehfsvyjvkkmghhjixj.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhZWhmc3Z5anZra21naGhqaXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODExNTcsImV4cCI6MjA4NjA1NzE1N30.LJ-eD1XR4VADOtLpzI1EKGSboNKEYieDZiU9G1ip19s";
 
-    const LOCAL_KEY = "trade_journal_cloud_local_cache_v2";
+    const LOCAL_KEY = "trade_journal_entries_v1";
     const $ = (id) => document.getElementById(id);
 
-    const state = { trades: [], sort: { key: "dateTime", dir: "desc" } };
+    // State
+    const state = { 
+      trades: [], 
+      sort: { key: "dateTime", dir: "desc" },
+      isOnline: navigator.onLine
+    };
+    
     let sb = null;
     let currentUser = null;
     let formShotDataUrl = "";
     let editingId = null;
+    let syncInProgress = false;
 
     // Detect mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+    // ==========================================
+    // UTILITY FUNCTIONS
+    // ==========================================
+    
     function showToast(msg, type = 'info') {
       const toast = $('toast');
       toast.textContent = msg;
       toast.className = 'toast ' + type;
-      setTimeout(() => toast.classList.add('show'), 10);
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    function showAuthMsg(msg, kind = "") {
+    function showAuthMsg(msg, isError = false) {
       const el = $("authHint");
-      el.textContent = msg || "Connect to access your trades anywhere";
-      el.style.color = kind === "ok" ? "var(--primary-green)" : kind === "bad" ? "#ef4444" : "var(--text-muted)";
+      el.textContent = msg;
+      el.style.color = isError ? "var(--danger)" : "var(--text-secondary)";
     }
 
     function showCloudMsg(msg) {
       const el = $("cloudHint");
       el.textContent = msg || "";
-      if (msg) setTimeout(() => { if (el.textContent === msg) el.textContent = ""; }, 3500);
+      if (msg) setTimeout(() => { if (el.textContent === msg) el.textContent = ""; }, 4000);
     }
 
-    function nowISODate() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
-    function nowISOTime() { const d = new Date(); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; }
-    function uid() { return crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(16).slice(2) + "-" + Date.now().toString(16)); }
-    function parseTags(s) { return (s || "").split(",").map(t => t.trim()).filter(Boolean).slice(0, 20); }
-    function safeNum(v, f = 0) { const n = Number(v); return Number.isFinite(n) ? n : f; }
-    function escapeHtml(str) { return String(str).replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[s])); }
-    function isProbablyImageUrl(url) { return /\.(png|jpg|jpeg|webp|gif)(\?|#|$)/i.test(url); }
-    function fmt(n) { if (n === "" || n == null) return ""; const num = Number(n); return Number.isFinite(num) ? (Math.round(num * 100) / 100).toString() : String(n); }
+    function nowISODate() { 
+      const d = new Date(); 
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; 
+    }
+    
+    function nowISOTime() { 
+      const d = new Date(); 
+      return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; 
+    }
+    
+    function uid() { 
+      return crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substr(2); 
+    }
+    
+    function parseTags(s) { 
+      return (s || "").split(",").map(t => t.trim()).filter(Boolean).slice(0, 20); 
+    }
+    
+    function safeNum(v, f = 0) { 
+      const n = Number(v); 
+      return Number.isFinite(n) ? n : f; 
+    }
+    
+    function escapeHtml(str) { 
+      return String(str).replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[s])); 
+    }
+    
+    function isProbablyImageUrl(url) { 
+      return /\.(png|jpg|jpeg|webp|gif)(\?|#|$)/i.test(url); 
+    }
+    
+    function fmt(n) { 
+      if (n === "" || n == null) return ""; 
+      const num = Number(n); 
+      return Number.isFinite(num) ? (Math.round(num * 100) / 100).toString() : String(n); 
+    }
 
-    function loadLocalCache() { try { const raw = localStorage.getItem(LOCAL_KEY); state.trades = raw ? JSON.parse(raw) : []; } catch { state.trades = []; } }
-    function saveLocalCache() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify(state.trades)); } catch { } }
+    // ==========================================
+    // LOCAL STORAGE
+    // ==========================================
+    
+    function loadLocalCache() { 
+      try { 
+        const raw = localStorage.getItem(LOCAL_KEY); 
+        state.trades = raw ? JSON.parse(raw) : []; 
+      } catch(e) { 
+        console.error("Load error:", e);
+        state.trades = []; 
+      } 
+    }
+    
+    function saveLocalCache() { 
+      try { 
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(state.trades)); 
+      } catch(e) {
+        console.error("Save error:", e);
+        showToast("Storage full - export data", "error");
+      } 
+    }
 
-    async function blobToCompressedDataUrl(blob, maxW = 1200, quality = 0.75) {
-      const img = new Image(); 
-      const url = URL.createObjectURL(blob);
-      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
-      const scale = Math.min(1, maxW / img.width);
-      const w = Math.max(1, Math.round(img.width * scale));
-      const h = Math.max(1, Math.round(img.height * scale));
-      const canvas = document.createElement("canvas"); 
-      canvas.width = w; 
-      canvas.height = h;
-      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      URL.revokeObjectURL(url);
-      return canvas.toDataURL("image/jpeg", quality);
+    // ==========================================
+    // IMAGE HANDLING
+    // ==========================================
+    
+    async function blobToCompressedDataUrl(blob, maxW = 1200, quality = 0.7) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(blob);
+        
+        img.onload = () => {
+          const scale = Math.min(1, maxW / img.width);
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          
+          URL.revokeObjectURL(url);
+          
+          try {
+            const dataUrl = canvas.toDataURL("image/jpeg", quality);
+            resolve(dataUrl);
+          } catch (e) {
+            reject(e);
+          }
+        };
+        
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error("Failed to load image"));
+        };
+        
+        img.src = url;
+      });
     }
 
     function setFormScreenshot(dataUrl, text = "") {
@@ -1174,51 +1086,60 @@
       const previewContainer = $("previewContainer");
       const img = $("shotPreview");
       const status = $("shotStatus");
-      const pasteIcon = $("pasteIcon");
-      const pasteText = $("pasteText");
-      const pasteHint = $("pasteHint");
-      const mobileBtn = $("mobileUploadBtn");
       
       if (formShotDataUrl) { 
         img.src = formShotDataUrl; 
         previewContainer.classList.remove("hidden");
         pasteZone.classList.add("has-image");
         status.textContent = text || "Image ready";
-        status.style.color = "var(--primary-green)";
+        status.style.color = "var(--success)";
         
-        // Hide paste UI when image present
-        pasteIcon.style.display = "none";
-        pasteText.style.display = "none";
-        pasteHint.style.display = "none";
-        mobileBtn.style.display = "none";
+        // Hide upload UI
+        $("pasteIcon").style.display = "none";
+        $("pasteText").style.display = "none";
+        $("pasteHint").style.display = "none";
+        $("mobileUploadBtn").style.display = "none";
       } else { 
         img.src = ""; 
         previewContainer.classList.add("hidden");
         pasteZone.classList.remove("has-image");
         status.textContent = "";
         
-        // Restore paste UI
-        pasteIcon.style.display = "flex";
-        pasteText.style.display = "block";
-        pasteHint.style.display = isMobile ? "none" : "inline-flex";
-        mobileBtn.style.display = isMobile ? "inline-flex" : "none";
+        // Restore upload UI
+        $("pasteIcon").style.display = "block";
+        $("pasteText").style.display = "block";
+        $("pasteHint").style.display = isMobile ? "none" : "block";
+        $("mobileUploadBtn").style.display = isMobile ? "inline-flex" : "none";
       }
     }
 
-    // Handle paste from clipboard (desktop)
+    // ==========================================
+    // CLIPBOARD & FILE HANDLING
+    // ==========================================
+    
     async function handlePasteEvent(e) {
-      const items = (e.clipboardData && e.clipboardData.items) ? Array.from(e.clipboardData.items) : [];
+      if (!e.clipboardData) return;
+      
+      const items = Array.from(e.clipboardData.items);
       const imgItem = items.find(it => it.type && it.type.startsWith("image/"));
+      
       if (!imgItem) return;
+      
       e.preventDefault();
-      const file = imgItem.getAsFile(); 
+      const file = imgItem.getAsFile();
       if (!file) return;
-      const dataUrl = await blobToCompressedDataUrl(file);
-      setFormScreenshot(dataUrl, "Screenshot pasted!");
-      showToast("Screenshot added!", "success");
+      
+      try {
+        showCloudMsg("Processing image...");
+        const dataUrl = await blobToCompressedDataUrl(file);
+        setFormScreenshot(dataUrl, "Screenshot added");
+        showToast("Screenshot pasted!", "success");
+      } catch (err) {
+        console.error("Paste error:", err);
+        showToast("Failed to process image", "error");
+      }
     }
 
-    // Handle mobile file selection
     async function handleMobileFile(e) {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
@@ -1229,16 +1150,20 @@
       }
       
       try {
+        showCloudMsg("Processing image...");
         const dataUrl = await blobToCompressedDataUrl(file);
-        setFormScreenshot(dataUrl, "Image loaded!");
+        setFormScreenshot(dataUrl, "Image loaded");
         showToast("Image added!", "success");
       } catch (err) {
-        console.error(err);
+        console.error("File error:", err);
         showToast("Failed to load image", "error");
       }
+      
+      // Clear input so same file can be selected again
+      e.target.value = "";
     }
 
-    // Try to read clipboard on mobile (works on some Android devices)
+    // Try clipboard API (some Android devices)
     async function tryMobilePaste() {
       if (!navigator.clipboard || !navigator.clipboard.read) {
         return false;
@@ -1258,155 +1183,321 @@
           }
         }
       } catch (err) {
-        console.log("Clipboard read failed:", err);
+        console.log("Clipboard API failed:", err);
       }
       return false;
     }
 
+    // ==========================================
+    // SUPABASE & SYNC
+    // ==========================================
+    
     function initSupabase() {
-      if (!SUPABASE_URL.startsWith("http") || SUPABASE_ANON_KEY.includes("PASTE_")) {
-        showAuthMsg("Please configure Supabase credentials", "bad");
-        return;
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes("PASTE_")) {
+        showAuthMsg("Please configure Supabase credentials in code", true);
+        return false;
       }
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      showAuthMsg("Ready to connect");
+      
+      try {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        return true;
+      } catch (e) {
+        console.error("Supabase init failed:", e);
+        showAuthMsg("Failed to initialize sync", true);
+        return false;
+      }
     }
 
     async function refreshSessionUI() {
       const whoami = $("whoami");
       if (currentUser) {
-        whoami.innerHTML = `<span class="status-dot status-online"></span>${currentUser.email}`;
-        whoami.style.color = "var(--text-primary)";
+        whoami.textContent = currentUser.email;
+        whoami.style.color = "var(--success)";
         $("signOutBtn").classList.remove("hidden");
         $("app").classList.remove("hidden");
-        $("authCard").querySelector('.card-icon').textContent = '✅';
       } else {
-        whoami.innerHTML = `<span class="status-dot status-offline"></span>Offline`;
+        whoami.textContent = state.isOnline ? "Offline" : "No connection";
         whoami.style.color = "var(--text-muted)";
         $("signOutBtn").classList.add("hidden");
         $("app").classList.add("hidden");
-        $("authCard").querySelector('.card-icon').textContent = '🔐';
       }
     }
 
+    // FIXED: Better sync with error handling and queue
     async function pullFromCloud() {
-      if (!sb || !currentUser) return;
+      if (!sb || !currentUser || syncInProgress) return;
+      
+      syncInProgress = true;
       showCloudMsg("Syncing...");
-      const { data, error } = await sb
-        .from("trades")
-        .select("id, trade, updated_at")
-        .eq("user_id", currentUser.id)
-        .order("updated_at", { ascending: false });
+      
+      try {
+        const { data, error } = await sb
+          .from("trades")
+          .select("*")
+          .eq("user_id", currentUser.id)
+          .order("updated_at", { ascending: false });
 
-      if (error) { 
-        console.error(error); 
-        showToast("Sync failed", "error");
-        showCloudMsg("Error"); 
-        return; 
+        if (error) throw error;
+
+        // Merge cloud data with local, preferring newer timestamps
+        const cloudTrades = (data || []).map(row => ({
+          ...row.trade,
+          id: row.id,
+          _synced: true,
+          _updatedAt: row.updated_at
+        }));
+
+        const localMap = new Map(state.trades.map(t => [t.id, t]));
+        const cloudMap = new Map(cloudTrades.map(t => [t.id, t]));
+        
+        // Merge: keep newer version of each trade
+        const merged = [];
+        const allIds = new Set([...localMap.keys(), ...cloudMap.keys()]);
+        
+        for (const id of allIds) {
+          const local = localMap.get(id);
+          const cloud = cloudMap.get(id);
+          
+          if (!local) {
+            merged.push(cloud);
+          } else if (!cloud) {
+            // Local only - will be pushed later
+            merged.push(local);
+          } else {
+            // Both exist - compare timestamps
+            const localTime = new Date(local.updatedAt || local.createdAt || 0);
+            const cloudTime = new Date(cloud._updatedAt || 0);
+            merged.push(localTime > cloudTime ? local : cloud);
+          }
+        }
+
+        state.trades = merged.sort((a, b) => 
+          new Date(b.dateTime || 0) - new Date(a.dateTime || 0)
+        );
+        
+        saveLocalCache();
+        render();
+        showToast("Synced successfully", "success");
+        showCloudMsg(`Updated ${new Date().toLocaleTimeString()}`);
+        
+      } catch (err) {
+        console.error("Sync failed:", err);
+        showToast("Sync failed - working offline", "error");
+        showCloudMsg("Offline mode");
+      } finally {
+        syncInProgress = false;
       }
-
-      state.trades = (data || []).map(row => {
-        const t = row.trade || {};
-        t.id = t.id || row.id;
-        return t;
-      }).sort((a, b) => new Date(b.dateTime || 0) - new Date(a.dateTime || 0));
-
-      saveLocalCache();
-      render();
-      showToast("Synced successfully!", "success");
-      showCloudMsg(`Updated ${new Date().toLocaleTimeString()}`);
     }
 
+    // FIXED: Upsert with better error handling
     async function upsertTradeCloud(tradeObj) {
-      const payload = { 
-        id: tradeObj.id, 
-        user_id: currentUser.id, 
-        trade: tradeObj, 
-        updated_at: new Date().toISOString() 
+      if (!sb || !currentUser) return false;
+      
+      const payload = {
+        id: tradeObj.id,
+        user_id: currentUser.id,
+        trade: tradeObj,
+        updated_at: new Date().toISOString()
       };
-      const { error } = await sb.from("trades").upsert(payload, { onConflict: "id" });
-      if (error) throw error;
+      
+      try {
+        const { error } = await sb
+          .from("trades")
+          .upsert(payload, { onConflict: "id" });
+        
+        if (error) throw error;
+        return true;
+      } catch (err) {
+        console.error("Upsert failed:", err);
+        return false;
+      }
     }
 
     async function deleteTradeCloud(id) {
-      const { error } = await sb.from("trades").delete().eq("id", id).eq("user_id", currentUser.id);
-      if (error) throw error;
+      if (!sb || !currentUser) return false;
+      
+      try {
+        const { error } = await sb
+          .from("trades")
+          .delete()
+          .eq("id", id)
+          .eq("user_id", currentUser.id);
+        
+        if (error) throw error;
+        return true;
+      } catch (err) {
+        console.error("Delete failed:", err);
+        return false;
+      }
     }
 
+    // FIXED: Sync all pending local trades
+    async function syncPendingTrades() {
+      if (!sb || !currentUser) return;
+      
+      const pending = state.trades.filter(t => !t._synced);
+      if (pending.length === 0) return;
+      
+      showCloudMsg(`Syncing ${pending.length} trades...`);
+      
+      let success = 0;
+      for (const trade of pending) {
+        const ok = await upsertTradeCloud(trade);
+        if (ok) {
+          trade._synced = true;
+          success++;
+        }
+      }
+      
+      saveLocalCache();
+      showToast(`Synced ${success}/${pending.length} trades`, success === pending.length ? "success" : "error");
+    }
+
+    // ==========================================
+    // AUTH
+    // ==========================================
+    
     async function signIn() {
-      if (!sb) return;
+      if (!sb) {
+        showToast("Sync not configured", "error");
+        return;
+      }
+      
       const email = $("authEmail").value.trim();
       const password = $("authPass").value;
-      showAuthMsg("Signing in...");
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) { 
-        showAuthMsg(error.message, "bad");
-        showToast("Sign in failed", "error");
-        return; 
+      
+      if (!email || !password) {
+        showToast("Please enter email and password", "error");
+        return;
       }
-      currentUser = data.user;
-      showAuthMsg("Welcome back!", "ok");
-      showToast("Signed in successfully!", "success");
-      await refreshSessionUI();
-      await pullFromCloud();
+      
+      showAuthMsg("Signing in...");
+      
+      try {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        
+        currentUser = data.user;
+        showAuthMsg("Connected");
+        showToast("Signed in successfully", "success");
+        await refreshSessionUI();
+        await pullFromCloud();
+        await syncPendingTrades(); // Sync any local trades
+        
+      } catch (err) {
+        showAuthMsg(err.message, true);
+        showToast("Sign in failed", "error");
+      }
     }
 
     async function signUp() {
       if (!sb) return;
+      
       const email = $("authEmail").value.trim();
       const password = $("authPass").value;
-      showAuthMsg("Creating account...");
-      const { error } = await sb.auth.signUp({ email, password });
-      if (error) { 
-        showAuthMsg(error.message, "bad");
-        return; 
+      
+      if (!email || !password) {
+        showToast("Please enter email and password", "error");
+        return;
       }
-      showAuthMsg("Check your email to confirm", "ok");
-      showToast("Account created!", "success");
+      
+      if (password.length < 6) {
+        showToast("Password must be 6+ characters", "error");
+        return;
+      }
+      
+      showAuthMsg("Creating account...");
+      
+      try {
+        const { error } = await sb.auth.signUp({ email, password });
+        if (error) throw error;
+        
+        showAuthMsg("Check your email to confirm");
+        showToast("Account created - check email", "success");
+        
+      } catch (err) {
+        showAuthMsg(err.message, true);
+        showToast("Sign up failed", "error");
+      }
     }
 
     async function magicLink() {
       if (!sb) return;
+      
       const email = $("authEmail").value.trim();
-      if (!email) return showToast("Please enter email", "error");
-      showAuthMsg("Sending magic link...");
-      const { error } = await sb.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: window.location.origin + window.location.pathname }
-      });
-      if (error) { 
-        showAuthMsg(error.message, "bad");
-        return; 
+      if (!email) {
+        showToast("Please enter your email", "error");
+        return;
       }
-      showAuthMsg("Magic link sent!", "ok");
-      showToast("Check your email!", "success");
+      
+      showAuthMsg("Sending magic link...");
+      
+      try {
+        const { error } = await sb.auth.signInWithOtp({
+          email,
+          options: { emailRedirectTo: window.location.href }
+        });
+        if (error) throw error;
+        
+        showAuthMsg("Magic link sent - check email");
+        showToast("Check your email!", "success");
+        
+      } catch (err) {
+        showAuthMsg(err.message, true);
+      }
     }
 
     async function signOut() {
       if (!sb) return;
+      
       await sb.auth.signOut();
       currentUser = null;
-      showAuthMsg("Signed out");
+      showAuthMsg("Sign in to sync across devices");
       showToast("Signed out", "success");
       await refreshSessionUI();
     }
 
+    // ==========================================
+    // TRADE OPERATIONS
+    // ==========================================
+    
     async function addTrade() {
+      // Validation
       const date = $("date").value || nowISODate();
       const time = $("time").value || nowISOTime();
-      const dateTime = new Date(`${date}T${time}:00`);
-      if (Number.isNaN(dateTime.getTime())) return showToast("Invalid date/time", "error");
+      const dateTime = new Date(`${date}T${time}`);
+      
+      if (isNaN(dateTime.getTime())) {
+        showToast("Invalid date/time", "error");
+        return;
+      }
+      
       const symbol = ($("symbol").value || "").trim().toUpperCase();
-      if (!symbol) return showToast("Symbol required", "error");
+      if (!symbol) {
+        showToast("Symbol is required", "error");
+        $("symbol").focus();
+        return;
+      }
 
+      // Process image
       const shotUrl = ($("shotUrl").value || "").trim();
-      const shotFile = $("shotFile").files && $("shotFile").files[0] ? $("shotFile").files[0] : null;
-      let shotDataUrl = formShotDataUrl || "";
-      if (shotFile) shotDataUrl = await blobToCompressedDataUrl(shotFile);
+      let shotDataUrl = formShotDataUrl;
+      
+      // Check file input as fallback
+      const shotFile = $("shotFile").files?.[0];
+      if (!shotDataUrl && shotFile) {
+        try {
+          shotDataUrl = await blobToCompressedDataUrl(shotFile);
+        } catch (e) {
+          showToast("Image processing failed", "error");
+        }
+      }
 
-      const t = {
-        id: uid(),
-        date, time,
+      // Create trade object
+      const trade = {
+        id: editingId || uid(),
+        date,
+        time,
         dateTime: dateTime.toISOString(),
         symbol,
         direction: $("direction").value,
@@ -1420,153 +1511,129 @@
         shotDataUrl,
         tags: parseTags($("tags").value),
         notes: ($("notes").value || "").trim(),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        _synced: false // Mark as needs sync
       };
 
-      state.trades.unshift(t);
+      // Update local state
+      if (editingId) {
+        const idx = state.trades.findIndex(t => t.id === editingId);
+        if (idx >= 0) state.trades[idx] = trade;
+        else state.trades.unshift(trade);
+      } else {
+        state.trades.unshift(trade);
+      }
+
       saveLocalCache();
       render();
-      showToast("Trade saved!", "success");
+      showToast(editingId ? "Trade updated" : "Trade saved", "success");
 
-      try { 
-        showCloudMsg("Saving..."); 
-        await upsertTradeCloud(t); 
-        showCloudMsg("Saved to cloud");
-      }
-      catch (e) { 
-        console.error(e); 
-        showToast("Cloud save failed", "error");
+      // Try to sync immediately if online
+      if (currentUser && state.isOnline) {
+        showCloudMsg("Saving to cloud...");
+        const ok = await upsertTradeCloud(trade);
+        if (ok) {
+          trade._synced = true;
+          saveLocalCache();
+          showCloudMsg("Saved to cloud");
+        } else {
+          showCloudMsg("Saved locally - will sync later");
+        }
+      } else {
+        showCloudMsg("Saved locally");
       }
 
       clearForm(false);
     }
 
     function clearForm(resetDT = true) {
-      if (resetDT) { $("date").value = nowISODate(); $("time").value = nowISOTime(); }
-      $("symbol").value = ""; 
-      $("setup").value = ""; 
-      $("riskR").value = "1"; 
+      if (resetDT) {
+        $("date").value = nowISODate();
+        $("time").value = nowISOTime();
+      }
+      
+      $("symbol").value = "";
+      $("setup").value = "";
+      $("riskR").value = "1";
       $("result").value = "WIN";
-      $("rr").value = ""; 
-      $("pl").value = ""; 
-      $("tags").value = ""; 
-      $("shotUrl").value = ""; 
+      $("rr").value = "";
+      $("pl").value = "";
+      $("tags").value = "";
+      $("shotUrl").value = "";
       $("shotFile").value = "";
-      $("notes").value = ""; 
-      $("direction").value = "LONG"; 
+      $("notes").value = "";
+      $("direction").value = "LONG";
       $("session").value = "ASIA";
-      setFormScreenshot("", "");
+      
+      setFormScreenshot("");
       editingId = null;
-      $("addBtn").textContent = "💾 Save Trade";
+      $("addBtn").textContent = "Save Trade";
     }
 
     async function delTrade(id) {
       if (!confirm("Delete this trade?")) return;
+      
+      // Remove locally first (optimistic)
       state.trades = state.trades.filter(t => t.id !== id);
-      saveLocalCache(); 
+      saveLocalCache();
       render();
       showToast("Trade deleted", "success");
       
-      try { 
+      // Try to sync deletion
+      if (currentUser && state.isOnline) {
         await deleteTradeCloud(id);
-      }
-      catch (e) { 
-        console.error(e);
-        showToast("Cloud delete failed", "error");
       }
     }
 
     async function deleteScreenshotOnly(id) {
-      const t = state.trades.find(x => x.id === id); 
-      if (!t) return;
+      const trade = state.trades.find(t => t.id === id);
+      if (!trade) return;
       if (!confirm("Remove screenshot?")) return;
-      t.shotUrl = ""; 
-      t.shotDataUrl = "";
-      saveLocalCache(); 
+      
+      trade.shotUrl = "";
+      trade.shotDataUrl = "";
+      trade._synced = false;
+      
+      saveLocalCache();
       render();
       
-      try { 
-        await upsertTradeCloud(t);
-        showToast("Screenshot removed", "success");
-      }
-      catch (e) { 
-        console.error(e);
+      if (currentUser) {
+        await upsertTradeCloud(trade);
       }
     }
 
     function startEdit(id) {
-      const t = state.trades.find(x => x.id === id); 
-      if (!t) return;
+      const trade = state.trades.find(t => t.id === id);
+      if (!trade) return;
+      
       editingId = id;
-      $("date").value = t.date; 
-      $("time").value = t.time; 
-      $("symbol").value = t.symbol;
-      $("direction").value = t.direction; 
-      $("session").value = t.session; 
-      $("setup").value = t.setup;
-      $("riskR").value = t.riskR; 
-      $("result").value = t.result; 
-      $("rr").value = t.rr; 
-      $("pl").value = t.pl;
-      $("tags").value = (t.tags || []).join(", "); 
-      $("shotUrl").value = t.shotUrl || ""; 
-      $("shotFile").value = "";
-      $("notes").value = t.notes || "";
-      setFormScreenshot(t.shotDataUrl || "", t.shotDataUrl ? "Loaded" : "");
-      $("addBtn").textContent = "💾 Update Trade";
+      
+      $("date").value = trade.date;
+      $("time").value = trade.time;
+      $("symbol").value = trade.symbol;
+      $("direction").value = trade.direction;
+      $("session").value = trade.session;
+      $("setup").value = trade.setup || "";
+      $("riskR").value = trade.riskR;
+      $("result").value = trade.result;
+      $("rr").value = trade.rr;
+      $("pl").value = trade.pl;
+      $("tags").value = (trade.tags || []).join(", ");
+      $("shotUrl").value = trade.shotUrl || "";
+      $("notes").value = trade.notes || "";
+      
+      setFormScreenshot(trade.shotDataUrl || "", trade.shotDataUrl ? "Loaded" : "");
+      $("addBtn").textContent = "Update Trade";
+      
       window.scrollTo({ top: 0, behavior: "smooth" });
-      showToast("Editing trade...", "success");
+      showToast("Editing trade", "success");
     }
 
-    async function saveEdit() {
-      const t = state.trades.find(x => x.id === editingId); 
-      if (!t) return;
-      const date = $("date").value || nowISODate();
-      const time = $("time").value || nowISOTime();
-      const dateTime = new Date(`${date}T${time}:00`); 
-      if (Number.isNaN(dateTime.getTime())) return showToast("Invalid date", "error");
-      const symbol = ($("symbol").value || "").trim().toUpperCase(); 
-      if (!symbol) return showToast("Symbol required", "error");
-
-      const shotUrl = ($("shotUrl").value || "").trim();
-      const shotFile = $("shotFile").files && $("shotFile").files[0] ? $("shotFile").files[0] : null;
-      let shotDataUrl = formShotDataUrl || t.shotDataUrl || "";
-      if (shotFile) shotDataUrl = await blobToCompressedDataUrl(shotFile);
-
-      Object.assign(t, {
-        date, time, 
-        dateTime: dateTime.toISOString(), 
-        symbol,
-        direction: $("direction").value,
-        session: $("session").value,
-        setup: ($("setup").value || "").trim(),
-        riskR: safeNum($("riskR").value, 1),
-        result: $("result").value,
-        rr: safeNum($("rr").value, $("result").value === "LOSS" ? -1 : ($("result").value === "BE" ? 0 : 1)),
-        pl: $("pl").value === "" ? "" : String(safeNum($("pl").value, 0)),
-        tags: parseTags($("tags").value),
-        shotUrl,
-        shotDataUrl,
-        notes: ($("notes").value || "").trim()
-      });
-
-      saveLocalCache(); 
-      render();
-      showToast("Trade updated!", "success");
-
-      try { 
-        await upsertTradeCloud(t);
-      }
-      catch (e) { 
-        console.error(e);
-        showToast("Cloud update failed", "error");
-      }
-
-      editingId = null; 
-      $("addBtn").textContent = "💾 Save Trade"; 
-      clearForm(false);
-    }
-
+    // ==========================================
+    // RENDERING
+    // ==========================================
+    
     function filteredTrades() {
       const q = ($("search").value || "").trim().toLowerCase();
       const fr = $("filterResult").value;
@@ -1575,19 +1642,31 @@
 
       let list = [...state.trades];
 
+      // Sort
       const { key, dir } = state.sort;
       list.sort((a, b) => {
         let av, bv;
-        if (key === "dateTime") { av = new Date(a.dateTime).getTime(); bv = new Date(b.dateTime).getTime(); }
-        else if (key === "rr") { av = Number(a.rr); bv = Number(b.rr); }
-        else if (key === "symbol") { av = a.symbol; bv = b.symbol; }
-        else { av = a[key]; bv = b[key]; }
+        if (key === "dateTime") {
+          av = new Date(a.dateTime).getTime();
+          bv = new Date(b.dateTime).getTime();
+        } else if (key === "rr") {
+          av = Number(a.rr);
+          bv = Number(b.rr);
+        } else if (key === "symbol") {
+          av = a.symbol;
+          bv = b.symbol;
+        } else {
+          av = a[key];
+          bv = b[key];
+        }
 
-        if (typeof av === "string" && typeof bv === "string") 
+        if (typeof av === "string" && typeof bv === "string") {
           return dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+        }
         return dir === "asc" ? (av - bv) : (bv - av);
       });
 
+      // Filter
       if (fr !== "ALL") list = list.filter(t => t.result === fr);
       if (from !== null) list = list.filter(t => new Date(t.dateTime).getTime() >= from);
       if (to !== null) list = list.filter(t => new Date(t.dateTime).getTime() <= to);
@@ -1595,12 +1674,13 @@
       if (q) {
         list = list.filter(t => {
           const hay = [
-            t.symbol, t.direction, t.session, t.setup, t.notes, 
-            (t.tags || []).join(" "), String(t.rr), String(t.pl), String(t.shotUrl || "")
+            t.symbol, t.direction, t.session, t.setup, t.notes,
+            (t.tags || []).join(" "), String(t.rr), String(t.pl)
           ].join(" ").toLowerCase();
           return hay.includes(q);
         });
       }
+
       return list;
     }
 
@@ -1615,21 +1695,21 @@
       let peak = 0, eq = 0, maxDD = 0;
       for (const t of [...list].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))) {
         const r = Number.isFinite(Number(t.rr)) ? Number(t.rr) : 0;
-        eq += r; 
+        eq += r;
         if (eq > peak) peak = eq;
-        const dd = peak - eq; 
+        const dd = peak - eq;
         if (dd > maxDD) maxDD = dd;
       }
 
       const cards = [
-        { t: "Trades", v: String(total), sub: `${wins}W ${losses}L`, cls: "" },
-        { t: "Win Rate", v: fmt(winRate) + "%", sub: "Success rate", cls: winRate >= 50 ? "positive" : winRate > 0 ? "negative" : "" },
-        { t: "Net RR", v: fmt(rrSum), sub: "R-multiples", cls: rrSum >= 0 ? "positive" : "negative" },
-        { t: "Max DD", v: fmt(maxDD), sub: "Drawdown", cls: "negative" }
+        { t: "Trades", v: String(total), sub: `${wins}W ${losses}L ${be}BE` },
+        { t: "Win Rate", v: fmt(winRate) + "%", sub: total > 0 ? `${Math.round(winRate)}%` : "—" },
+        { t: "Net RR", v: fmt(rrSum), sub: rrSum >= 0 ? "+" + fmt(rrSum) : fmt(rrSum) },
+        { t: "Max DD", v: fmt(maxDD), sub: "R-multiples" }
       ];
 
       $("kpis").innerHTML = cards.map(c => `
-        <div class="kpi-card ${c.cls}">
+        <div class="kpi-card">
           <div class="kpi-label">${c.t}</div>
           <div class="kpi-value">${c.v}</div>
           <div class="kpi-sub">${c.sub}</div>
@@ -1642,15 +1722,16 @@
       renderKPIs(list);
 
       const tbody = $("tbody");
-      
+      const isMobileView = window.innerWidth < 768;
+
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="12">
               <div class="empty-state">
-                <div class="empty-icon">📈</div>
-                <div style="font-size:18px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">No trades yet</div>
-                <div style="font-size:14px;">Add your first trade above to get started</div>
+                <div style="font-size:48px; margin-bottom:16px;">📝</div>
+                <div style="font-size:16px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">No trades yet</div>
+                <div style="font-size:14px; color:var(--text-muted);">Add your first trade above</div>
               </div>
             </td>
           </tr>
@@ -1658,15 +1739,13 @@
         return;
       }
 
-      const isMobileView = window.innerWidth < 768;
-
       tbody.innerHTML = list.map(t => {
         const dt = new Date(t.dateTime);
         const tags = (t.tags || []).slice(0, 6).map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("");
-        const notes = t.notes ? escapeHtml(t.notes.substring(0, 80)) + (t.notes.length > 80 ? "..." : "") : "—";
+        const notes = t.notes ? escapeHtml(t.notes.substring(0, 100)) + (t.notes.length > 100 ? "..." : "") : "—";
         const setup = t.setup || "—";
         const pl = t.pl === "" ? "" : fmt(t.pl);
-        const plClass = Number(t.pl) > 0 ? "green" : Number(t.pl) < 0 ? "red" : "";
+        const plColor = Number(t.pl) > 0 ? "var(--success)" : Number(t.pl) < 0 ? "var(--danger)" : "inherit";
 
         let shotHtml = "—";
         if (t.shotDataUrl || t.shotUrl) {
@@ -1674,24 +1753,24 @@
           if (thumbSrc) {
             shotHtml = `
               <img class="thumb" src="${escapeHtml(thumbSrc)}" onclick="openShot('${t.id}')" loading="lazy" />
-              <div style="margin-top:4px; display:flex; gap:8px; font-size:11px;">
-                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue);">Link</a>` : ""}
-                <a href="#" onclick="deleteScreenshotOnly('${t.id}');return false;" style="color:#ef4444;">Remove</a>
+              <div style="margin-top:4px;">
+                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--accent-blue); font-size:11px;">Link</a> · ` : ""}
+                <a href="#" onclick="deleteScreenshotOnly('${t.id}');return false;" style="color:var(--danger); font-size:11px;">Remove</a>
               </div>
             `;
           } else if (t.shotUrl) {
-            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue); font-size:12px;">View →</a>`;
+            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--accent-blue);">View →</a>`;
           }
         }
 
-        const dirBadge = t.direction === "LONG" 
-          ? '<span class="badge badge-long">Long</span>' 
+        const dirBadge = t.direction === "LONG"
+          ? '<span class="badge badge-long">Long</span>'
           : '<span class="badge badge-short">Short</span>';
-        
-        const resultBadge = t.result === "WIN" 
-          ? '<span class="badge badge-win">Win</span>' 
-          : t.result === "LOSS" 
-            ? '<span class="badge badge-loss">Loss</span>' 
+
+        const resultBadge = t.result === "WIN"
+          ? '<span class="badge badge-win">Win</span>'
+          : t.result === "LOSS"
+            ? '<span class="badge badge-loss">Loss</span>'
             : '<span class="badge badge-be">BE</span>';
 
         if (isMobileView) {
@@ -1699,21 +1778,21 @@
             <tr>
               <td>
                 <div class="trade-date">${dt.toLocaleDateString()}</div>
-                <div class="trade-time">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} • ${escapeHtml(t.session)}</div>
+                <div class="trade-time">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} · ${escapeHtml(t.session)}</div>
               </td>
-              <td data-label="Symbol"><strong style="color:var(--primary-green); font-size:16px;">${escapeHtml(t.symbol)}</strong></td>
-              <td data-label="Direction">${dirBadge}</td>
+              <td data-label="Symbol"><strong style="font-size:16px;">${escapeHtml(t.symbol)}</strong></td>
+              <td data-label="Dir">${dirBadge}</td>
               <td data-label="Setup">${escapeHtml(setup)}</td>
               <td data-label="Result">${resultBadge}</td>
-              <td data-label="RR" class="font-mono" style="font-weight:600; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</td>
-              <td data-label="P&L" class="font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
+              <td data-label="RR" class="font-mono" style="font-weight:600;">${fmt(t.rr)}R</td>
+              <td data-label="P&L" class="font-mono" style="font-weight:600; color:${plColor};">${pl || "—"}</td>
               <td data-label="Chart">${shotHtml}</td>
               <td data-label="Tags"><div style="display:flex; flex-wrap:wrap; gap:4px;">${tags || "—"}</div></td>
-              <td data-label="Notes" style="font-size:13px; color:var(--text-muted); max-width:200px;">${notes}</td>
+              <td data-label="Notes" style="font-size:13px; color:var(--text-secondary);">${notes}</td>
               <td data-label="Actions">
                 <div class="actions">
-                  <button class="btn btn-outline btn-sm" onclick="startEdit('${t.id}')">Edit</button>
-                  <button class="btn btn-danger btn-sm" onclick="delTrade('${t.id}')">Del</button>
+                  <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="startEdit('${t.id}')">Edit</button>
+                  <button class="btn btn-danger" style="padding:4px 10px; font-size:12px;" onclick="delTrade('${t.id}')">Del</button>
                 </div>
               </td>
             </tr>
@@ -1723,26 +1802,26 @@
         return `
           <tr>
             <td>
-              <div style="font-weight:600;">${dt.toLocaleDateString()}</div>
+              <div style="font-weight:500;">${dt.toLocaleDateString()}</div>
               <div style="font-size:12px; color:var(--text-muted);">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
             </td>
-            <td><strong style="color:var(--primary-green);">${escapeHtml(t.symbol)}</strong></td>
+            <td><strong>${escapeHtml(t.symbol)}</strong></td>
             <td>${dirBadge}</td>
             <td>${escapeHtml(t.session)}</td>
             <td>${escapeHtml(setup)}</td>
             <td class="text-right font-mono">${fmt(t.riskR)}</td>
             <td class="text-right">
               ${resultBadge}
-              <div class="font-mono" style="font-size:12px; margin-top:4px; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</div>
+              <div class="font-mono" style="font-size:12px; margin-top:4px;">${fmt(t.rr)}R</div>
             </td>
-            <td class="text-right font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
+            <td class="text-right font-mono" style="font-weight:500; color:${plColor};">${pl || "—"}</td>
             <td>${shotHtml}</td>
             <td>${tags || "—"}</td>
             <td style="max-width:200px; font-size:13px; color:var(--text-secondary);">${notes}</td>
             <td class="text-right">
               <div class="actions">
-                <button class="btn btn-outline btn-sm" onclick="startEdit('${t.id}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="delTrade('${t.id}')">Delete</button>
+                <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="startEdit('${t.id}')">Edit</button>
+                <button class="btn btn-danger" style="padding:4px 10px; font-size:12px;" onclick="delTrade('${t.id}')">Delete</button>
               </div>
             </td>
           </tr>
@@ -1751,54 +1830,60 @@
     }
 
     function openShot(id) {
-      const t = state.trades.find(x => x.id === id); 
+      const t = state.trades.find(x => x.id === id);
       if (!t) return;
-      if (t.shotDataUrl) { 
-        $("modalImg").src = t.shotDataUrl; 
-        $("modal").style.display = "flex"; 
-        return; 
+      if (t.shotDataUrl) {
+        $("modalImg").src = t.shotDataUrl;
+        $("modal").style.display = "flex";
+        return;
       }
-      if (t.shotUrl && isProbablyImageUrl(t.shotUrl)) { 
-        $("modalImg").src = t.shotUrl; 
-        $("modal").style.display = "flex"; 
-        return; 
+      if (t.shotUrl && isProbablyImageUrl(t.shotUrl)) {
+        $("modalImg").src = t.shotUrl;
+        $("modal").style.display = "flex";
+        return;
       }
       if (t.shotUrl) window.open(t.shotUrl, "_blank", "noreferrer");
     }
 
-    function closeModal() { 
-      $("modal").style.display = "none"; 
-      $("modalImg").src = ""; 
+    function closeModal() {
+      $("modal").style.display = "none";
+      $("modalImg").src = "";
     }
 
     function setSort(key) {
-      if (state.sort.key === key) state.sort.dir = (state.sort.dir === "desc" ? "asc" : "desc");
-      else { 
-        state.sort.key = key; 
-        state.sort.dir = (key === "symbol" ? "asc" : "desc"); 
+      if (state.sort.key === key) {
+        state.sort.dir = state.sort.dir === "desc" ? "asc" : "desc";
+      } else {
+        state.sort.key = key;
+        state.sort.dir = key === "symbol" ? "asc" : "desc";
       }
-      render(); 
+      render();
       updateSortButtons();
     }
 
     function updateSortButtons() {
-      const s = state.sort; 
+      const s = state.sort;
       const arrow = s.dir === "desc" ? "↓" : "↑";
       $("sortDateBtn").textContent = `Date ${s.key === "dateTime" ? arrow : "↓"}`;
       $("sortRRBtn").textContent = `RR ${s.key === "rr" ? arrow : "↓"}`;
       $("sortSymbolBtn").textContent = `A-Z ${s.key === "symbol" ? (s.dir === "asc" ? "↑" : "↓") : ""}`;
     }
 
+    // ==========================================
+    // CSV IMPORT/EXPORT
+    // ==========================================
+    
     function toCSV(trades) {
-      const headers = ["date", "time", "symbol", "direction", "session", "setup", "riskR", "result", "rr", "pl", "shotUrl", "shotDataUrl", "tags", "notes", "createdAt", "id"];
+      const headers = ["date", "time", "symbol", "direction", "session", "setup", "riskR", "result", "rr", "pl", "shotUrl", "tags", "notes", "createdAt", "id"];
       const lines = [headers.join(",")];
+      
       for (const t of trades) {
         const row = headers.map(h => {
-          let v = t[h]; 
+          let v = t[h];
           if (h === "tags") v = (t.tags || []).join("|");
-          if (v == null) v = ""; 
+          if (v == null) v = "";
           v = String(v);
-          if (/[",\n]/.test(v)) v = '"' + v.replaceAll('"', '""') + '"';
+          if (/[",\n]/.test(v)) v = '"' + v.replace(/"/g, '""') + '"';
           return v;
         }).join(",");
         lines.push(row);
@@ -1808,112 +1893,164 @@
 
     function download(filename, text) {
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([text], { type: "text/csv" }));
+      a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8;" }));
       a.download = filename;
-      document.body.appendChild(a); 
-      a.click(); 
+      document.body.appendChild(a);
+      a.click();
       a.remove();
     }
 
     function exportCSV() {
       const csv = toCSV(state.trades);
       const stamp = new Date().toISOString().slice(0, 10);
-      download(`citrus-trades-${stamp}.csv`, csv);
-      showToast("Exported successfully!", "success");
+      download(`trading-journal-${stamp}.csv`, csv);
+      showToast("Exported successfully", "success");
     }
 
     function parseCSV(text) {
-      const rows = []; 
+      const rows = [];
       let i = 0, field = "", row = [], inQuotes = false;
+      
       while (i < text.length) {
         const c = text[i];
         if (inQuotes) {
-          if (c === '"') { 
-            if (text[i + 1] === '"') { field += '"'; i += 2; continue; } 
-            inQuotes = false; i++; continue; 
+          if (c === '"') {
+            if (text[i + 1] === '"') {
+              field += '"';
+              i += 2;
+              continue;
+            }
+            inQuotes = false;
+            i++;
+            continue;
           }
-          field += c; i++; continue;
+          field += c;
+          i++;
         } else {
-          if (c === '"') { inQuotes = true; i++; continue; }
-          if (c === ",") { row.push(field); field = ""; i++; continue; }
-          if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
-          if (c === "\r") { i++; continue; }
-          field += c; i++; continue;
+          if (c === '"') {
+            inQuotes = true;
+            i++;
+          } else if (c === ",") {
+            row.push(field);
+            field = "";
+            i++;
+          } else if (c === "\n") {
+            row.push(field);
+            rows.push(row);
+            row = [];
+            field = "";
+            i++;
+          } else if (c === "\r") {
+            i++;
+          } else {
+            field += c;
+            i++;
+          }
         }
       }
-      row.push(field); rows.push(row);
+      
+      row.push(field);
+      rows.push(row);
       return rows.filter(r => r.some(x => x !== ""));
     }
 
     async function importCSV(file) {
       const reader = new FileReader();
       reader.onload = async () => {
-        const rows = parseCSV(String(reader.result || ""));
-        if (rows.length < 2) return showToast("Empty CSV file", "error");
-        
-        const headers = rows[0].map(h => h.trim());
-        const imported = rows.slice(1).map(cols => {
-          const t = {}; 
-          for (let idx = 0; idx < headers.length; idx++) t[headers[idx]] = cols[idx] ?? "";
-          const tags = String(t.tags || "").split("|").map(x => x.trim()).filter(Boolean);
-          const date = t.date || nowISODate(); 
-          const time = t.time || "00:00";
-          const dt = new Date(`${date}T${time}:00`); 
-          const iso = Number.isNaN(dt.getTime()) ? new Date().toISOString() : dt.toISOString();
-          
-          return {
-            id: t.id || uid(),
-            date, time, dateTime: t.dateTime || iso,
-            symbol: String(t.symbol || "").trim().toUpperCase() || "UNKNOWN",
-            direction: (t.direction === "SHORT" ? "SHORT" : "LONG"),
-            session: ["ASIA", "LONDON", "NEWYORK", "OTHER"].includes(t.session) ? t.session : "OTHER",
-            setup: String(t.setup || ""),
-            riskR: safeNum(t.riskR, 1),
-            result: ["WIN", "LOSS", "BE"].includes(t.result) ? t.result : "BE",
-            rr: safeNum(t.rr, 0),
-            pl: (t.pl === "" ? "" : String(safeNum(t.pl, 0))),
-            shotUrl: String(t.shotUrl || ""),
-            shotDataUrl: String(t.shotDataUrl || ""),
-            tags,
-            notes: String(t.notes || ""),
-            createdAt: t.createdAt || new Date().toISOString()
-          };
-        });
+        try {
+          const rows = parseCSV(String(reader.result || ""));
+          if (rows.length < 2) {
+            showToast("CSV file is empty", "error");
+            return;
+          }
 
-        const byId = new Map(state.trades.map(t => [t.id, t]));
-        for (const t of imported) byId.set(t.id, t);
-        state.trades = Array.from(byId.values()).sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-        saveLocalCache(); 
-        render();
-        showToast(`Imported ${imported.length} trades!`, "success");
+          const headers = rows[0].map(h => h.trim());
+          const imported = rows.slice(1).map(cols => {
+            const t = {};
+            for (let i = 0; i < headers.length; i++) {
+              t[headers[i]] = cols[i] ?? "";
+            }
 
-        if (currentUser) {
-          for (const t of imported) await upsertTradeCloud(t);
-          showToast("Synced to cloud!", "success");
+            const tags = String(t.tags || "").split("|").map(x => x.trim()).filter(Boolean);
+            const date = t.date || nowISODate();
+            const time = t.time || "00:00";
+            const dt = new Date(`${date}T${time}`);
+            const iso = isNaN(dt.getTime()) ? new Date().toISOString() : dt.toISOString();
+
+            return {
+              id: t.id || uid(),
+              date,
+              time,
+              dateTime: t.dateTime || iso,
+              symbol: String(t.symbol || "").trim().toUpperCase() || "UNKNOWN",
+              direction: t.direction === "SHORT" ? "SHORT" : "LONG",
+              session: ["ASIA", "LONDON", "NEWYORK", "OTHER"].includes(t.session) ? t.session : "OTHER",
+              setup: String(t.setup || ""),
+              riskR: safeNum(t.riskR, 1),
+              result: ["WIN", "LOSS", "BE"].includes(t.result) ? t.result : "BE",
+              rr: safeNum(t.rr, 0),
+              pl: t.pl === "" ? "" : String(safeNum(t.pl, 0)),
+              shotUrl: String(t.shotUrl || ""),
+              shotDataUrl: "",
+              tags,
+              notes: String(t.notes || ""),
+              createdAt: t.createdAt || new Date().toISOString(),
+              _synced: false
+            };
+          });
+
+          // Merge with existing
+          const byId = new Map(state.trades.map(t => [t.id, t]));
+          for (const t of imported) {
+            byId.set(t.id, t);
+          }
+
+          state.trades = Array.from(byId.values())
+            .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+          saveLocalCache();
+          render();
+          showToast(`Imported ${imported.length} trades`, "success");
+
+          // Sync to cloud if logged in
+          if (currentUser) {
+            for (const t of imported) {
+              await upsertTradeCloud(t);
+            }
+            showToast("Synced to cloud", "success");
+          }
+
+        } catch (err) {
+          console.error("Import error:", err);
+          showToast("Import failed", "error");
         }
       };
       reader.readAsText(file);
     }
 
-    // Event Listeners
-    window.openShot = openShot; 
-    window.closeModal = closeModal; 
+    // ==========================================
+    // EVENT LISTENERS & INIT
+    // ==========================================
+    
+    window.openShot = openShot;
+    window.closeModal = closeModal;
     window.startEdit = startEdit;
-    window.delTrade = delTrade; 
+    window.delTrade = delTrade;
     window.deleteScreenshotOnly = deleteScreenshotOnly;
 
     $("exportBtn").onclick = exportCSV;
-    $("importInput").addEventListener("change", (e) => { 
-      const f = e.target.files && e.target.files[0]; 
-      if (f) importCSV(f); 
-      e.target.value = ""; 
+    $("importInput").addEventListener("change", (e) => {
+      const f = e.target.files?.[0];
+      if (f) importCSV(f);
+      e.target.value = "";
     });
-    $("wipeBtn").onclick = () => { 
-      if (!confirm("Clear all local data?")) return; 
-      localStorage.removeItem(LOCAL_KEY); 
-      state.trades = []; 
+    
+    $("wipeBtn").onclick = () => {
+      if (!confirm("Clear all local data? This cannot be undone.")) return;
+      localStorage.removeItem(LOCAL_KEY);
+      state.trades = [];
       render();
-      showToast("Local data cleared", "success");
+      showToast("All data cleared", "success");
     };
 
     $("signInBtn").onclick = signIn;
@@ -1921,111 +2058,104 @@
     $("magicBtn").onclick = magicLink;
     $("signOutBtn").onclick = signOut;
 
-    $("addBtn").onclick = async () => { 
+    $("addBtn").onclick = addTrade;
+    $("clearFormBtn").onclick = () => {
+      editingId = null;
+      $("addBtn").textContent = "Save Trade";
+      clearForm(false);
+    };
+    
+    $("syncBtn").onclick = async () => {
       if (!currentUser) {
         showToast("Please sign in first", "error");
-        $("authEmail").focus();
         return;
       }
-      if (editingId) return saveEdit(); 
-      return addTrade(); 
-    };
-    
-    $("clearFormBtn").onclick = () => { 
-      editingId = null; 
-      $("addBtn").textContent = "💾 Save Trade"; 
-      clearForm(false); 
-    };
-    
-    $("syncBtn").onclick = async () => { 
-      if (!currentUser) return showToast("Please sign in first", "error");
-      await pullFromCloud(); 
+      await pullFromCloud();
+      await syncPendingTrades();
     };
 
-    ["search", "filterResult", "fromDate", "toDate"].forEach(id => { 
-      $(id).addEventListener("input", render); 
-      $(id).addEventListener("change", render); 
+    // Filter listeners
+    ["search", "filterResult", "fromDate", "toDate"].forEach(id => {
+      $(id).addEventListener("input", render);
+      $(id).addEventListener("change", render);
     });
-    
+
     $("sortDateBtn").onclick = () => setSort("dateTime");
     $("sortRRBtn").onclick = () => setSort("rr");
     $("sortSymbolBtn").onclick = () => setSort("symbol");
 
-    // Paste zone events
-    const pasteZone = $("pasteBox");
+    // Paste zone
+    const pasteZone = $("pasteZone");
     pasteZone.addEventListener("focus", () => pasteZone.classList.add("active"));
     pasteZone.addEventListener("blur", () => pasteZone.classList.remove("active"));
     pasteZone.addEventListener("paste", handlePasteEvent);
-    
-    // Try clipboard API on click (for mobile)
     pasteZone.addEventListener("click", async () => {
       if (isMobile) {
         const success = await tryMobilePaste();
         if (!success) {
-          // Focus the hidden file input as fallback
           $("mobileFileInput").click();
         }
       }
     });
     
-    // Desktop paste
     document.addEventListener("paste", handlePasteEvent);
-    
-    // Mobile file input
     $("mobileFileInput").addEventListener("change", handleMobileFile);
-    
-    // Regular file input
-    $("shotFile").addEventListener("change", async (e) => { 
-      const file = e.target.files && e.target.files[0] ? e.target.files[0] : null; 
-      if (!file) return; 
-      const d = await blobToCompressedDataUrl(file); 
-      setFormScreenshot(d, "Uploaded!"); 
-      showToast("Image uploaded!", "success");
+    $("shotFile").addEventListener("change", handleMobileFile);
+    $("clearShotBtn").addEventListener("click", () => setFormScreenshot(""));
+
+    // Network status
+    window.addEventListener("online", () => {
+      state.isOnline = true;
+      showToast("Back online", "success");
+      if (currentUser) syncPendingTrades();
     });
     
-    $("clearShotBtn").addEventListener("click", () => { 
-      $("shotFile").value = ""; 
-      $("mobileFileInput").value = "";
-      setFormScreenshot("", ""); 
+    window.addEventListener("offline", () => {
+      state.isOnline = false;
+      showToast("Offline mode", "error");
     });
 
-    // Handle window resize
+    // Resize handler
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(render, 250);
     });
 
-    // Initialize mobile UI
-    if (isMobile) {
-      $("pasteHint").style.display = "none";
-    } else {
+    // Mobile UI init
+    if (!isMobile) {
       $("mobileUploadBtn").style.display = "none";
     }
 
     // Initialize
     loadLocalCache();
-    $("date").value = nowISODate(); 
-    $("time").value = nowISOTime(); 
+    $("date").value = nowISODate();
+    $("time").value = nowISOTime();
     $("riskR").value = "1";
-    updateSortButtons(); 
+    updateSortButtons();
     render();
-    initSupabase();
 
-    (async () => {
-      if (!sb) return;
-      const { data } = await sb.auth.getSession();
-      currentUser = data?.session?.user || null;
-      await refreshSessionUI();
-
-      sb.auth.onAuthStateChange(async (_event, session) => {
-        currentUser = session?.user || null;
+    if (initSupabase()) {
+      (async () => {
+        const { data } = await sb.auth.getSession();
+        currentUser = data?.session?.user || null;
         await refreshSessionUI();
-        if (currentUser) await pullFromCloud();
-      });
+        
+        if (currentUser) {
+          await pullFromCloud();
+          await syncPendingTrades();
+        }
 
-      if (currentUser) await pullFromCloud();
-    })();
+        sb.auth.onAuthStateChange(async (_event, session) => {
+          currentUser = session?.user || null;
+          await refreshSessionUI();
+          if (currentUser) {
+            await pullFromCloud();
+            await syncPendingTrades();
+          }
+        });
+      })();
+    }
   </script>
 </body>
 </html>
