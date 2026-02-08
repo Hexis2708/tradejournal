@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sprite Trade — Refresh Your Trading</title>
+  <title>Citrus Trade Journal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
     :root {
-      /* Sprite-inspired palette */
-      --sprite-green: #00a651;
-      --sprite-green-light: #4ade80;
-      --sprite-green-dark: #166534;
-      --sprite-blue: #00aeef;
-      --sprite-blue-light: #7dd3fc;
-      --sprite-yellow: #facc15;
-      --sprite-lime: #a3e635;
+      --primary-green: #10b981;
+      --primary-green-light: #34d399;
+      --primary-green-dark: #059669;
+      --primary-blue: #0ea5e9;
+      --primary-blue-light: #7dd3fc;
+      --accent-yellow: #fbbf24;
+      --accent-lime: #a3e635;
       
       --bg-primary: #f0fdf4;
       --bg-secondary: #ffffff;
@@ -32,7 +31,7 @@
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --shadow-sprite: 0 10px 40px -10px rgba(0, 166, 81, 0.3);
+      --shadow-citrus: 0 10px 40px -10px rgba(16, 185, 129, 0.3);
       
       --radius-sm: 8px;
       --radius-md: 12px;
@@ -61,7 +60,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Mobile-first container */
     .wrap {
       max-width: 1200px;
       margin: 0 auto;
@@ -76,9 +74,8 @@
       .wrap { padding: 32px; }
     }
 
-    /* Header — Fresh & bubbly */
     header {
-      background: linear-gradient(135deg, var(--sprite-green) 0%, var(--sprite-blue) 100%);
+      background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
       margin: -16px -16px 24px -16px;
       padding: 24px 16px;
       position: relative;
@@ -100,7 +97,6 @@
       }
     }
 
-    /* Bubble decorations */
     header::before,
     header::after {
       content: '';
@@ -143,7 +139,7 @@
     }
 
     .brand h1::before {
-      content: '🍋';
+      content: '📊';
       font-size: 32px;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
@@ -177,7 +173,6 @@
       .header-actions { right: 24px; top: 32px; }
     }
 
-    /* Buttons — Soft & rounded */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -215,7 +210,7 @@
 
     .btn-primary {
       background: white;
-      color: var(--sprite-green);
+      color: var(--primary-green);
       box-shadow: var(--shadow-md);
     }
 
@@ -231,8 +226,8 @@
     }
 
     .btn-outline:hover {
-      border-color: var(--sprite-green);
-      color: var(--sprite-green);
+      border-color: var(--primary-green);
+      color: var(--primary-green);
       background: var(--bg-primary);
     }
 
@@ -251,7 +246,6 @@
       color: var(--text-secondary);
     }
 
-    /* Cards — Clean & elevated */
     .card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -281,7 +275,7 @@
       width: 40px;
       height: 40px;
       border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--sprite-green-light), var(--sprite-blue-light));
+      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -299,7 +293,6 @@
       color: var(--text-muted);
     }
 
-    /* Form Grid — Stacked on mobile */
     .form-grid {
       display: grid;
       gap: 16px;
@@ -333,7 +326,6 @@
       .form-col-three { grid-column: span 3; }
     }
 
-    /* Inputs — Soft & friendly */
     label {
       display: block;
       font-size: 13px;
@@ -357,8 +349,8 @@
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--sprite-green);
-      box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.1);
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
       background: white;
     }
 
@@ -374,7 +366,6 @@
       resize: vertical;
     }
 
-    /* Paste Zone — Fun & interactive */
     .paste-zone {
       border: 2px dashed var(--border-medium);
       border-radius: var(--radius-lg);
@@ -382,18 +373,25 @@
       text-align: center;
       background: var(--bg-input);
       transition: all 0.2s;
+      position: relative;
     }
 
     .paste-zone.active {
-      border-color: var(--sprite-green);
+      border-color: var(--primary-green);
       background: #f0fdf4;
+    }
+
+    .paste-zone.has-image {
+      border-color: var(--primary-green);
+      background: #f0fdf4;
+      border-style: solid;
     }
 
     .paste-icon {
       width: 48px;
       height: 48px;
       margin: 0 auto 12px;
-      background: linear-gradient(135deg, var(--sprite-green-light), var(--sprite-blue-light));
+      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -413,6 +411,8 @@
       align-items: center;
       font-size: 12px;
       color: var(--text-muted);
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .kbd {
@@ -423,6 +423,37 @@
       font-family: monospace;
       font-size: 11px;
       font-weight: 600;
+    }
+
+    .mobile-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: white;
+      border: 1.5px solid var(--primary-green);
+      color: var(--primary-green);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mobile-upload-btn:hover {
+      background: var(--primary-green);
+      color: white;
+    }
+
+    .mobile-upload-btn input {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
     }
 
     .preview-box {
@@ -443,7 +474,6 @@
       border: 2px solid white;
     }
 
-    /* KPI Cards — Bright & bubbly */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -476,7 +506,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--sprite-green), var(--sprite-blue));
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
     }
 
     .kpi-card.negative::before {
@@ -484,7 +514,7 @@
     }
 
     .kpi-card.positive::before {
-      background: linear-gradient(90deg, var(--sprite-green), var(--sprite-lime));
+      background: linear-gradient(90deg, var(--primary-green), var(--accent-lime));
     }
 
     .kpi-label {
@@ -514,7 +544,6 @@
       font-weight: 500;
     }
 
-    /* Filter Bar — Horizontal scroll on mobile */
     .filter-bar {
       display: flex;
       gap: 12px;
@@ -554,7 +583,6 @@
       }
     }
 
-    /* Table — Card-based on mobile */
     .table-wrap {
       background: white;
       border-radius: var(--radius-lg);
@@ -563,7 +591,6 @@
       border: 1px solid var(--border-light);
     }
 
-    /* Mobile: Card view instead of table */
     @media (max-width: 767px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -622,7 +649,6 @@
       }
     }
 
-    /* Desktop: Normal table */
     @media (min-width: 768px) {
       table {
         width: 100%;
@@ -658,7 +684,6 @@
       }
     }
 
-    /* Badges */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -672,7 +697,7 @@
 
     .badge-win {
       background: #dcfce7;
-      color: var(--sprite-green-dark);
+      color: var(--primary-green-dark);
     }
 
     .badge-loss {
@@ -695,7 +720,6 @@
       color: #9d174d;
     }
 
-    /* Tags */
     .tag {
       display: inline-block;
       padding: 4px 10px;
@@ -708,7 +732,6 @@
       border: 1px solid var(--border-light);
     }
 
-    /* Thumbnails */
     .thumb {
       width: 60px;
       height: 40px;
@@ -730,7 +753,6 @@
       }
     }
 
-    /* Action buttons in table */
     .actions {
       display: flex;
       gap: 8px;
@@ -741,7 +763,6 @@
       font-size: 12px;
     }
 
-    /* Modal */
     #modal {
       display: none;
       position: fixed;
@@ -784,7 +805,6 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -795,7 +815,7 @@
       width: 80px;
       height: 80px;
       margin: 0 auto 20px;
-      background: linear-gradient(135deg, var(--sprite-green-light), var(--sprite-blue-light));
+      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -804,7 +824,6 @@
       opacity: 0.5;
     }
 
-    /* Toast notifications */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -828,14 +847,13 @@
     }
 
     .toast.success {
-      background: var(--sprite-green);
+      background: var(--primary-green);
     }
 
     .toast.error {
       background: #ef4444;
     }
 
-    /* Status indicators */
     .status-dot {
       width: 8px;
       height: 8px;
@@ -844,33 +862,20 @@
       margin-right: 6px;
     }
 
-    .status-online { background: var(--sprite-green); }
+    .status-online { background: var(--primary-green); }
     .status-offline { background: var(--text-muted); }
 
-    /* Utility */
     .hidden { display: none !important; }
     .text-right { text-align: right; }
     .font-mono { font-family: 'SF Mono', monospace; }
-    
-    /* Loading shimmer */
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-    
-    .loading {
-      background: linear-gradient(90deg, var(--bg-input) 25%, #e2e8f0 50%, var(--bg-input) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <div class="brand">
-        <h1>Sprite Trade</h1>
-        <div class="sub">Refresh your trading game • Cloud sync • Mobile ready</div>
+        <h1>Citrus Trade</h1>
+        <div class="sub">Fresh trading journal • Cloud sync • Mobile ready</div>
       </div>
       <div class="header-actions">
         <button class="btn btn-secondary" id="exportBtn">Export</button>
@@ -882,7 +887,6 @@
       </div>
     </header>
 
-    <!-- Auth Card -->
     <div class="card" id="authCard">
       <div class="card-header">
         <div class="card-icon">🔐</div>
@@ -913,9 +917,7 @@
       </div>
     </div>
 
-    <!-- Main App -->
     <div id="app" class="hidden">
-      <!-- Entry Form -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">✏️</div>
@@ -996,16 +998,23 @@
           </div>
 
           <div class="form-col-half">
-            <label>Or Paste Screenshot</label>
+            <label>Screenshot Capture</label>
             <div class="paste-zone" id="pasteBox" tabindex="0">
-              <div class="paste-icon">📋</div>
-              <div class="paste-text">Tap and paste screenshot</div>
-              <div class="paste-hint">
-                <span class="kbd">Ctrl</span> + <span class="kbd">V</span>
+              <div class="paste-icon" id="pasteIcon">📋</div>
+              <div class="paste-text" id="pasteText">Paste screenshot here</div>
+              <div class="paste-hint" id="pasteHint">
+                <span class="kbd">Ctrl</span>+<span class="kbd">V</span> on desktop
               </div>
+              
+              <!-- Mobile upload button -->
+              <label class="mobile-upload-btn" id="mobileUploadBtn">
+                📁 Choose from Gallery
+                <input type="file" accept="image/*" id="mobileFileInput" />
+              </label>
+              
               <div class="preview-box hidden" id="previewContainer">
                 <img id="shotPreview" class="preview-img" alt="Preview" />
-                <button class="btn btn-danger btn-sm" id="clearShotBtn">Remove</button>
+                <button class="btn btn-danger btn-sm" id="clearShotBtn">Remove Image</button>
               </div>
               <div id="shotStatus" style="margin-top:8px; font-size:12px; color:var(--text-muted);"></div>
             </div>
@@ -1027,7 +1036,6 @@
         </div>
       </div>
 
-      <!-- Analytics & History -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">📊</div>
@@ -1037,10 +1045,8 @@
           </div>
         </div>
 
-        <!-- KPIs -->
         <div class="kpi-grid" id="kpis"></div>
 
-        <!-- Filters -->
         <div style="margin-bottom:20px;">
           <label style="margin-bottom:8px;">Filters</label>
           <div class="filter-bar">
@@ -1061,7 +1067,6 @@
           </div>
         </div>
 
-        <!-- Table -->
         <div class="table-wrap">
           <table>
             <thead>
@@ -1087,7 +1092,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
   <div id="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1095,7 +1099,6 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1113,7 +1116,9 @@
     let formShotDataUrl = "";
     let editingId = null;
 
-    // Toast notifications
+    // Detect mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     function showToast(msg, type = 'info') {
       const toast = $('toast');
       toast.textContent = msg;
@@ -1127,7 +1132,7 @@
     function showAuthMsg(msg, kind = "") {
       const el = $("authHint");
       el.textContent = msg || "Connect to access your trades anywhere";
-      el.style.color = kind === "ok" ? "var(--sprite-green)" : kind === "bad" ? "#ef4444" : "var(--text-muted)";
+      el.style.color = kind === "ok" ? "var(--primary-green)" : kind === "bad" ? "#ef4444" : "var(--text-muted)";
     }
 
     function showCloudMsg(msg) {
@@ -1136,7 +1141,6 @@
       if (msg) setTimeout(() => { if (el.textContent === msg) el.textContent = ""; }, 3500);
     }
 
-    // Utilities
     function nowISODate() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
     function nowISOTime() { const d = new Date(); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; }
     function uid() { return crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(16).slice(2) + "-" + Date.now().toString(16)); }
@@ -1166,22 +1170,42 @@
 
     function setFormScreenshot(dataUrl, text = "") {
       formShotDataUrl = dataUrl || "";
+      const pasteZone = $("pasteBox");
       const previewContainer = $("previewContainer");
       const img = $("shotPreview");
       const status = $("shotStatus");
+      const pasteIcon = $("pasteIcon");
+      const pasteText = $("pasteText");
+      const pasteHint = $("pasteHint");
+      const mobileBtn = $("mobileUploadBtn");
       
       if (formShotDataUrl) { 
         img.src = formShotDataUrl; 
         previewContainer.classList.remove("hidden");
+        pasteZone.classList.add("has-image");
         status.textContent = text || "Image ready";
-        status.style.color = "var(--sprite-green)";
+        status.style.color = "var(--primary-green)";
+        
+        // Hide paste UI when image present
+        pasteIcon.style.display = "none";
+        pasteText.style.display = "none";
+        pasteHint.style.display = "none";
+        mobileBtn.style.display = "none";
       } else { 
         img.src = ""; 
         previewContainer.classList.add("hidden");
+        pasteZone.classList.remove("has-image");
         status.textContent = "";
+        
+        // Restore paste UI
+        pasteIcon.style.display = "flex";
+        pasteText.style.display = "block";
+        pasteHint.style.display = isMobile ? "none" : "inline-flex";
+        mobileBtn.style.display = isMobile ? "inline-flex" : "none";
       }
     }
 
+    // Handle paste from clipboard (desktop)
     async function handlePasteEvent(e) {
       const items = (e.clipboardData && e.clipboardData.items) ? Array.from(e.clipboardData.items) : [];
       const imgItem = items.find(it => it.type && it.type.startsWith("image/"));
@@ -1192,6 +1216,51 @@
       const dataUrl = await blobToCompressedDataUrl(file);
       setFormScreenshot(dataUrl, "Screenshot pasted!");
       showToast("Screenshot added!", "success");
+    }
+
+    // Handle mobile file selection
+    async function handleMobileFile(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      
+      if (!file.type.startsWith("image/")) {
+        showToast("Please select an image", "error");
+        return;
+      }
+      
+      try {
+        const dataUrl = await blobToCompressedDataUrl(file);
+        setFormScreenshot(dataUrl, "Image loaded!");
+        showToast("Image added!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to load image", "error");
+      }
+    }
+
+    // Try to read clipboard on mobile (works on some Android devices)
+    async function tryMobilePaste() {
+      if (!navigator.clipboard || !navigator.clipboard.read) {
+        return false;
+      }
+      
+      try {
+        const items = await navigator.clipboard.read();
+        for (const item of items) {
+          for (const type of item.types) {
+            if (type.startsWith("image/")) {
+              const blob = await item.getType(type);
+              const dataUrl = await blobToCompressedDataUrl(blob);
+              setFormScreenshot(dataUrl, "Screenshot pasted!");
+              showToast("Screenshot added!", "success");
+              return true;
+            }
+          }
+        }
+      } catch (err) {
+        console.log("Clipboard read failed:", err);
+      }
+      return false;
     }
 
     function initSupabase() {
@@ -1574,9 +1643,6 @@
 
       const tbody = $("tbody");
       
-      // Mobile card view vs desktop table
-      const isMobile = window.innerWidth < 768;
-      
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
@@ -1591,6 +1657,8 @@
         `;
         return;
       }
+
+      const isMobileView = window.innerWidth < 768;
 
       tbody.innerHTML = list.map(t => {
         const dt = new Date(t.dateTime);
@@ -1607,12 +1675,12 @@
             shotHtml = `
               <img class="thumb" src="${escapeHtml(thumbSrc)}" onclick="openShot('${t.id}')" loading="lazy" />
               <div style="margin-top:4px; display:flex; gap:8px; font-size:11px;">
-                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--sprite-blue);">Link</a>` : ""}
+                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue);">Link</a>` : ""}
                 <a href="#" onclick="deleteScreenshotOnly('${t.id}');return false;" style="color:#ef4444;">Remove</a>
               </div>
             `;
           } else if (t.shotUrl) {
-            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--sprite-blue); font-size:12px;">View →</a>`;
+            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue); font-size:12px;">View →</a>`;
           }
         }
 
@@ -1626,19 +1694,18 @@
             ? '<span class="badge badge-loss">Loss</span>' 
             : '<span class="badge badge-be">BE</span>';
 
-        if (isMobile) {
-          // Mobile card layout
+        if (isMobileView) {
           return `
             <tr>
               <td>
                 <div class="trade-date">${dt.toLocaleDateString()}</div>
                 <div class="trade-time">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} • ${escapeHtml(t.session)}</div>
               </td>
-              <td data-label="Symbol"><strong style="color:var(--sprite-green); font-size:16px;">${escapeHtml(t.symbol)}</strong></td>
+              <td data-label="Symbol"><strong style="color:var(--primary-green); font-size:16px;">${escapeHtml(t.symbol)}</strong></td>
               <td data-label="Direction">${dirBadge}</td>
               <td data-label="Setup">${escapeHtml(setup)}</td>
               <td data-label="Result">${resultBadge}</td>
-              <td data-label="RR" class="font-mono" style="font-weight:600; color:${Number(t.rr) >= 0 ? 'var(--sprite-green)' : '#ef4444'};">${fmt(t.rr)}R</td>
+              <td data-label="RR" class="font-mono" style="font-weight:600; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</td>
               <td data-label="P&L" class="font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
               <td data-label="Chart">${shotHtml}</td>
               <td data-label="Tags"><div style="display:flex; flex-wrap:wrap; gap:4px;">${tags || "—"}</div></td>
@@ -1653,21 +1720,20 @@
           `;
         }
 
-        // Desktop table layout
         return `
           <tr>
             <td>
               <div style="font-weight:600;">${dt.toLocaleDateString()}</div>
               <div style="font-size:12px; color:var(--text-muted);">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
             </td>
-            <td><strong style="color:var(--sprite-green);">${escapeHtml(t.symbol)}</strong></td>
+            <td><strong style="color:var(--primary-green);">${escapeHtml(t.symbol)}</strong></td>
             <td>${dirBadge}</td>
             <td>${escapeHtml(t.session)}</td>
             <td>${escapeHtml(setup)}</td>
             <td class="text-right font-mono">${fmt(t.riskR)}</td>
             <td class="text-right">
               ${resultBadge}
-              <div class="font-mono" style="font-size:12px; margin-top:4px; color:${Number(t.rr) >= 0 ? 'var(--sprite-green)' : '#ef4444'};">${fmt(t.rr)}R</div>
+              <div class="font-mono" style="font-size:12px; margin-top:4px; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</div>
             </td>
             <td class="text-right font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
             <td>${shotHtml}</td>
@@ -1723,7 +1789,6 @@
       $("sortSymbolBtn").textContent = `A-Z ${s.key === "symbol" ? (s.dir === "asc" ? "↑" : "↓") : ""}`;
     }
 
-    // CSV Functions
     function toCSV(trades) {
       const headers = ["date", "time", "symbol", "direction", "session", "setup", "riskR", "result", "rr", "pl", "shotUrl", "shotDataUrl", "tags", "notes", "createdAt", "id"];
       const lines = [headers.join(",")];
@@ -1753,7 +1818,7 @@
     function exportCSV() {
       const csv = toCSV(state.trades);
       const stamp = new Date().toISOString().slice(0, 10);
-      download(`sprite-trades-${stamp}.csv`, csv);
+      download(`citrus-trades-${stamp}.csv`, csv);
       showToast("Exported successfully!", "success");
     }
 
@@ -1886,13 +1951,30 @@
     $("sortRRBtn").onclick = () => setSort("rr");
     $("sortSymbolBtn").onclick = () => setSort("symbol");
 
-    // Paste zone highlighting
+    // Paste zone events
     const pasteZone = $("pasteBox");
     pasteZone.addEventListener("focus", () => pasteZone.classList.add("active"));
     pasteZone.addEventListener("blur", () => pasteZone.classList.remove("active"));
     pasteZone.addEventListener("paste", handlePasteEvent);
+    
+    // Try clipboard API on click (for mobile)
+    pasteZone.addEventListener("click", async () => {
+      if (isMobile) {
+        const success = await tryMobilePaste();
+        if (!success) {
+          // Focus the hidden file input as fallback
+          $("mobileFileInput").click();
+        }
+      }
+    });
+    
+    // Desktop paste
     document.addEventListener("paste", handlePasteEvent);
     
+    // Mobile file input
+    $("mobileFileInput").addEventListener("change", handleMobileFile);
+    
+    // Regular file input
     $("shotFile").addEventListener("change", async (e) => { 
       const file = e.target.files && e.target.files[0] ? e.target.files[0] : null; 
       if (!file) return; 
@@ -1903,15 +1985,23 @@
     
     $("clearShotBtn").addEventListener("click", () => { 
       $("shotFile").value = ""; 
+      $("mobileFileInput").value = "";
       setFormScreenshot("", ""); 
     });
 
-    // Handle window resize for responsive table
+    // Handle window resize
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(render, 250);
     });
+
+    // Initialize mobile UI
+    if (isMobile) {
+      $("pasteHint").style.display = "none";
+    } else {
+      $("mobileUploadBtn").style.display = "none";
+    }
 
     // Initialize
     loadLocalCache();
