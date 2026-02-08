@@ -3,40 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Citrus Trade Journal</title>
+  <title>Trade Journal</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
     :root {
-      --primary-green: #10b981;
-      --primary-green-light: #34d399;
-      --primary-green-dark: #059669;
-      --primary-blue: #0ea5e9;
-      --primary-blue-light: #7dd3fc;
-      --accent-yellow: #fbbf24;
-      --accent-lime: #a3e635;
-      
-      --bg-primary: #f0fdf4;
-      --bg-secondary: #ffffff;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f7f6f3;
+      --bg-hover: #efedea;
       --bg-card: #ffffff;
-      --bg-input: #f8fafc;
       
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --text-primary: #37352f;
+      --text-secondary: #6b6b6b;
+      --text-muted: #9ca3af;
       
-      --border-light: #e2e8f0;
-      --border-medium: #cbd5e1;
+      --border-light: #e3e2e0;
+      --border-medium: #d1d1d1;
       
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --shadow-citrus: 0 10px 40px -10px rgba(16, 185, 129, 0.3);
+      --accent-blue: #2eaadc;
+      --accent-green: #448361;
+      --accent-red: #d44c47;
+      --accent-yellow: #dfab01;
+      --accent-purple: #9d68d3;
       
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.04);
+      
+      --radius-sm: 3px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
     }
 
     * { 
@@ -53,7 +48,7 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 50%, #ecfdf5 100%);
+      background: var(--bg-secondary);
       color: var(--text-primary);
       min-height: 100vh;
       line-height: 1.5;
@@ -61,116 +56,67 @@
     }
 
     .wrap {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 24px 16px;
     }
 
     @media (min-width: 768px) {
-      .wrap { padding: 24px; }
-    }
-
-    @media (min-width: 1024px) {
-      .wrap { padding: 32px; }
+      .wrap { padding: 40px 24px; }
     }
 
     header {
-      background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-      margin: -16px -16px 24px -16px;
-      padding: 24px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @media (min-width: 768px) {
-      header {
-        margin: -24px -24px 32px -24px;
-        padding: 32px 24px;
-        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      header {
-        margin: -32px -32px 40px -32px;
-        padding: 40px 32px;
-      }
-    }
-
-    header::before,
-    header::after {
-      content: '';
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    header::before {
-      width: 200px;
-      height: 200px;
-      top: -100px;
-      right: -50px;
-    }
-
-    header::after {
-      width: 100px;
-      height: 100px;
-      bottom: -30px;
-      left: 10%;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
     }
 
     .brand {
-      position: relative;
-      z-index: 1;
-    }
-
-    .brand h1 {
-      font-size: 28px;
-      font-weight: 800;
-      color: white;
-      letter-spacing: -0.5px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    @media (min-width: 768px) {
-      .brand h1 { font-size: 36px; }
-    }
-
-    .brand h1::before {
-      content: '📊';
-      font-size: 32px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    .brand h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
     }
 
     .sub {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 14px;
-      margin-top: 8px;
-      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-top: 2px;
     }
 
     .header-actions {
       display: flex;
       gap: 8px;
-      margin-top: 20px;
+      margin-top: 16px;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
     }
 
     @media (min-width: 640px) {
       .header-actions {
+        margin-top: 0;
         position: absolute;
         top: 24px;
         right: 16px;
-        margin-top: 0;
       }
     }
 
     @media (min-width: 768px) {
-      .header-actions { right: 24px; top: 32px; }
+      header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .header-actions {
+        position: static;
+        margin-top: 0;
+      }
     }
 
     .btn {
@@ -178,78 +124,63 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 16px;
-      border-radius: 100px;
-      border: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-secondary);
       font-family: inherit;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       white-space: nowrap;
       touch-action: manipulation;
     }
 
-    @media (min-width: 768px) {
-      .btn { padding: 12px 20px; font-size: 14px; }
+    .btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
 
     .btn:active {
-      transform: scale(0.96);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--bg-secondary);
     }
 
     .btn-primary {
-      background: white;
-      color: var(--primary-green);
-      box-shadow: var(--shadow-md);
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text-secondary);
-      border: 1.5px solid var(--border-medium);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary-green);
-      color: var(--primary-green);
-      background: var(--bg-primary);
+      background: #2385b8;
+      border-color: #2385b8;
     }
 
     .btn-danger {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1.5px solid #fecaca;
+      color: var(--accent-red);
+      border-color: var(--border-light);
     }
 
     .btn-danger:hover {
-      background: #fee2e2;
+      background: #fef2f2;
+      border-color: var(--accent-red);
     }
 
     .btn-ghost {
       background: transparent;
-      color: var(--text-secondary);
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-hover);
     }
 
     .card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 24px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
       margin-bottom: 16px;
@@ -257,7 +188,7 @@
 
     @media (min-width: 768px) {
       .card {
-        padding: 24px;
+        padding: 32px;
         margin-bottom: 24px;
       }
     }
@@ -265,32 +196,20 @@
     .card-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+      gap: 8px;
+      margin-bottom: 24px;
     }
 
     .card-title {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 600;
       color: var(--text-primary);
     }
 
     .card-subtitle {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      margin-left: auto;
     }
 
     .form-grid {
@@ -328,101 +247,96 @@
 
     label {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       color: var(--text-secondary);
       margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border-light);
-      background: var(--bg-input);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
       color: var(--text-primary);
-      font-size: 15px;
+      font-size: 14px;
       font-family: inherit;
-      transition: all 0.2s;
+      transition: all 0.15s;
       -webkit-appearance: none;
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--primary-green);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      border-color: var(--accent-blue);
       background: white;
     }
 
     select {
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
+      background-position: right 10px center;
+      padding-right: 32px;
     }
 
     textarea {
       min-height: 100px;
       resize: vertical;
+      line-height: 1.6;
     }
 
     .paste-zone {
-      border: 2px dashed var(--border-medium);
-      border-radius: var(--radius-lg);
-      padding: 24px;
+      border: 2px dashed var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 32px 24px;
       text-align: center;
-      background: var(--bg-input);
-      transition: all 0.2s;
+      background: var(--bg-secondary);
+      transition: all 0.15s;
       position: relative;
+      cursor: pointer;
+    }
+
+    .paste-zone:hover {
+      border-color: var(--accent-blue);
+      background: #f0f9ff;
     }
 
     .paste-zone.active {
-      border-color: var(--primary-green);
-      background: #f0fdf4;
+      border-color: var(--accent-blue);
+      background: #f0f9ff;
     }
 
     .paste-zone.has-image {
-      border-color: var(--primary-green);
+      border-color: var(--accent-green);
       background: #f0fdf4;
       border-style: solid;
     }
 
     .paste-icon {
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       margin: 0 auto 12px;
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
-      border-radius: 50%;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 20px;
+      box-shadow: var(--shadow-sm);
     }
 
     .paste-text {
       color: var(--text-secondary);
       font-size: 14px;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .paste-hint {
-      display: inline-flex;
-      gap: 4px;
-      align-items: center;
       font-size: 12px;
       color: var(--text-muted);
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .kbd {
-      padding: 2px 8px;
-      background: white;
-      border: 1px solid var(--border-medium);
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 11px;
-      font-weight: 600;
     }
 
     .mobile-upload-btn {
@@ -430,20 +344,21 @@
       align-items: center;
       gap: 6px;
       margin-top: 12px;
-      padding: 10px 20px;
-      background: white;
-      border: 1.5px solid var(--primary-green);
-      color: var(--primary-green);
-      border-radius: 100px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
     }
 
     .mobile-upload-btn:hover {
-      background: var(--primary-green);
-      color: white;
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
     }
 
     .mobile-upload-btn input {
@@ -469,16 +384,16 @@
       max-width: 280px;
       height: 160px;
       object-fit: cover;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       box-shadow: var(--shadow-md);
-      border: 2px solid white;
+      border: 1px solid var(--border-light);
     }
 
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     @media (min-width: 640px) {
@@ -489,37 +404,24 @@
     }
 
     .kpi-card {
-      background: white;
-      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
       padding: 16px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+    .kpi-card.negative {
+      border-left: 3px solid var(--accent-red);
     }
 
-    .kpi-card.negative::before {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-    }
-
-    .kpi-card.positive::before {
-      background: linear-gradient(90deg, var(--primary-green), var(--accent-lime));
+    .kpi-card.positive {
+      border-left: 3px solid var(--accent-green);
     }
 
     .kpi-label {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -527,7 +429,7 @@
 
     .kpi-value {
       font-size: 24px;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--text-primary);
       margin-top: 4px;
       letter-spacing: -0.5px;
@@ -584,8 +486,8 @@
     }
 
     .table-wrap {
-      background: white;
-      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
@@ -621,9 +523,9 @@
       
       td::before {
         content: attr(data-label);
-        font-weight: 600;
+        font-weight: 500;
         color: var(--text-muted);
-        font-size: 12px;
+        font-size: 11px;
         text-transform: uppercase;
       }
       
@@ -638,8 +540,8 @@
       }
       
       .trade-date {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 16px;
+        font-weight: 600;
         color: var(--text-primary);
       }
       
@@ -653,30 +555,30 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 14px;
+        font-size: 13px;
       }
       
       th {
         text-align: left;
-        padding: 16px;
+        padding: 12px 16px;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         color: var(--text-muted);
-        background: var(--bg-input);
+        background: var(--bg-secondary);
         border-bottom: 1px solid var(--border-light);
         white-space: nowrap;
       }
       
       td {
-        padding: 16px;
+        padding: 12px 16px;
         border-bottom: 1px solid var(--border-light);
         color: var(--text-secondary);
       }
       
       tr:hover td {
-        background: var(--bg-input);
+        background: var(--bg-secondary);
       }
       
       tr:last-child td {
@@ -687,46 +589,47 @@
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 700;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     .badge-win {
       background: #dcfce7;
-      color: var(--primary-green-dark);
+      color: var(--accent-green);
     }
 
     .badge-loss {
       background: #fee2e2;
-      color: #991b1b;
+      color: var(--accent-red);
     }
 
     .badge-be {
       background: #fef9c3;
-      color: #854d0e;
+      color: var(--accent-yellow);
     }
 
     .badge-long {
       background: #dbeafe;
-      color: #1e40af;
+      color: var(--accent-blue);
     }
 
     .badge-short {
       background: #fce7f3;
-      color: #9d174d;
+      color: #be185d;
     }
 
     .tag {
       display: inline-block;
-      padding: 4px 10px;
-      background: var(--bg-input);
-      border-radius: 100px;
+      padding: 2px 8px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--text-secondary);
       margin: 2px;
       border: 1px solid var(--border-light);
@@ -739,11 +642,11 @@
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-light);
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.15s;
     }
 
     .thumb:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     @media (min-width: 768px) {
@@ -759,7 +662,7 @@
     }
 
     .btn-sm {
-      padding: 6px 12px;
+      padding: 4px 10px;
       font-size: 12px;
     }
 
@@ -768,7 +671,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(4px);
       z-index: 1000;
       padding: 20px;
       align-items: center;
@@ -784,23 +687,23 @@
     .modal-img {
       max-width: 100%;
       max-height: 80vh;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
     }
 
     .modal-close {
       position: absolute;
-      top: -50px;
+      top: -40px;
       right: 0;
       background: white;
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 16px;
       cursor: pointer;
       box-shadow: var(--shadow-md);
     }
@@ -812,16 +715,15 @@
     }
 
     .empty-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px;
-      background: linear-gradient(135deg, var(--primary-green-light), var(--primary-blue-light));
-      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
-      opacity: 0.5;
+      font-size: 24px;
     }
 
     .toast {
@@ -831,14 +733,14 @@
       transform: translateX(-50%) translateY(100px);
       background: var(--text-primary);
       color: white;
-      padding: 12px 24px;
-      border-radius: 100px;
-      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
       font-weight: 500;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-md);
       z-index: 1001;
       opacity: 0;
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
 
     .toast.show {
@@ -847,22 +749,22 @@
     }
 
     .toast.success {
-      background: var(--primary-green);
+      background: var(--accent-green);
     }
 
     .toast.error {
-      background: #ef4444;
+      background: var(--accent-red);
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       display: inline-block;
       margin-right: 6px;
     }
 
-    .status-online { background: var(--primary-green); }
+    .status-online { background: var(--accent-green); }
     .status-offline { background: var(--text-muted); }
 
     .hidden { display: none !important; }
@@ -874,12 +776,12 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <h1>Citrus Trade</h1>
-        <div class="sub">Fresh trading journal • Cloud sync • Mobile ready</div>
+        <h1>Trade Journal</h1>
       </div>
+      <div class="sub">Log, analyze, and improve your trading</div>
       <div class="header-actions">
-        <button class="btn btn-secondary" id="exportBtn">Export</button>
-        <label class="btn btn-primary" style="cursor:pointer;">
+        <button class="btn btn-ghost" id="exportBtn">Export</button>
+        <label class="btn" style="cursor:pointer;">
           Import
           <input id="importInput" type="file" accept=".csv,text/csv" style="display:none" />
         </label>
@@ -889,11 +791,8 @@
 
     <div class="card" id="authCard">
       <div class="card-header">
-        <div class="card-icon">🔐</div>
-        <div>
-          <div class="card-title">Cloud Sync</div>
-          <div class="card-subtitle" id="authHint">Connect to access your trades anywhere</div>
-        </div>
+        <div class="card-title">Cloud Sync</div>
+        <div class="card-subtitle" id="authHint">Connect to access your trades anywhere</div>
       </div>
       
       <div class="form-grid">
@@ -905,9 +804,9 @@
           <label>Password</label>
           <input id="authPass" type="password" placeholder="••••••••" />
         </div>
-        <div class="form-col-full" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <div class="form-col-full" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
           <button class="btn btn-primary" id="signInBtn">Sign In</button>
-          <button class="btn btn-outline" id="signUpBtn">Create Account</button>
+          <button class="btn" id="signUpBtn">Create Account</button>
           <button class="btn btn-ghost" id="magicBtn">Magic Link</button>
           <button class="btn btn-ghost hidden" id="signOutBtn">Sign Out</button>
           <span style="margin-left:auto; font-size:13px; color:var(--text-muted);" id="whoami">
@@ -920,11 +819,7 @@
     <div id="app" class="hidden">
       <div class="card">
         <div class="card-header">
-          <div class="card-icon">✏️</div>
-          <div>
-            <div class="card-title">New Trade</div>
-            <div class="card-subtitle">Log your setup and results</div>
-          </div>
+          <div class="card-title">New Trade</div>
         </div>
 
         <div class="form-grid">
@@ -990,7 +885,7 @@
 
           <div class="form-col-half">
             <label>Screenshot URL</label>
-            <input id="shotUrl" placeholder="https://tradingview.com/..." />
+            <input id="shotUrl" placeholder="https://tradingview.com/ ..." />
           </div>
           <div class="form-col-half">
             <label>Upload Image</label>
@@ -1003,10 +898,9 @@
               <div class="paste-icon" id="pasteIcon">📋</div>
               <div class="paste-text" id="pasteText">Paste screenshot here</div>
               <div class="paste-hint" id="pasteHint">
-                <span class="kbd">Ctrl</span>+<span class="kbd">V</span> on desktop
+                Press Ctrl+V to paste
               </div>
               
-              <!-- Mobile upload button -->
               <label class="mobile-upload-btn" id="mobileUploadBtn">
                 📁 Choose from Gallery
                 <input type="file" accept="image/*" id="mobileFileInput" />
@@ -1025,12 +919,12 @@
             <textarea id="notes" placeholder="What did you see? How did you feel? What can you improve?"></textarea>
           </div>
 
-          <div class="form-col-full" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-            <button class="btn btn-primary" id="addBtn" style="padding:14px 28px; font-size:16px;">
-              💾 Save Trade
+          <div class="form-col-full" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button class="btn btn-primary" id="addBtn" style="padding:8px 20px;">
+              Save Trade
             </button>
             <button class="btn btn-ghost" id="clearFormBtn">Clear</button>
-            <button class="btn btn-outline" id="syncBtn">🔄 Sync</button>
+            <button class="btn" id="syncBtn">Sync</button>
             <span id="cloudHint" style="margin-left:auto; font-size:13px; color:var(--text-muted);"></span>
           </div>
         </div>
@@ -1038,11 +932,7 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-icon">📊</div>
-          <div>
-            <div class="card-title">Performance</div>
-            <div class="card-subtitle">Your trading statistics</div>
-          </div>
+          <div class="card-title">Performance</div>
         </div>
 
         <div class="kpi-grid" id="kpis"></div>
@@ -1060,9 +950,9 @@
             <input id="fromDate" type="date" style="width:140px;" />
             <input id="toDate" type="date" style="width:140px;" />
             <div style="display:flex; gap:8px;">
-              <button class="btn btn-outline btn-sm" id="sortDateBtn">Date ↓</button>
-              <button class="btn btn-outline btn-sm" id="sortRRBtn">RR ↓</button>
-              <button class="btn btn-outline btn-sm" id="sortSymbolBtn">A-Z</button>
+              <button class="btn btn-sm" id="sortDateBtn">Date ↓</button>
+              <button class="btn btn-sm" id="sortRRBtn">RR ↓</button>
+              <button class="btn btn-sm" id="sortSymbolBtn">A-Z</button>
             </div>
           </div>
         </div>
@@ -1116,7 +1006,6 @@
     let formShotDataUrl = "";
     let editingId = null;
 
-    // Detect mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     function showToast(msg, type = 'info') {
@@ -1132,7 +1021,7 @@
     function showAuthMsg(msg, kind = "") {
       const el = $("authHint");
       el.textContent = msg || "Connect to access your trades anywhere";
-      el.style.color = kind === "ok" ? "var(--primary-green)" : kind === "bad" ? "#ef4444" : "var(--text-muted)";
+      el.style.color = kind === "ok" ? "var(--accent-green)" : kind === "bad" ? "var(--accent-red)" : "var(--text-muted)";
     }
 
     function showCloudMsg(msg) {
@@ -1184,9 +1073,8 @@
         previewContainer.classList.remove("hidden");
         pasteZone.classList.add("has-image");
         status.textContent = text || "Image ready";
-        status.style.color = "var(--primary-green)";
+        status.style.color = "var(--accent-green)";
         
-        // Hide paste UI when image present
         pasteIcon.style.display = "none";
         pasteText.style.display = "none";
         pasteHint.style.display = "none";
@@ -1197,15 +1085,13 @@
         pasteZone.classList.remove("has-image");
         status.textContent = "";
         
-        // Restore paste UI
         pasteIcon.style.display = "flex";
         pasteText.style.display = "block";
-        pasteHint.style.display = isMobile ? "none" : "inline-flex";
+        pasteHint.style.display = isMobile ? "none" : "block";
         mobileBtn.style.display = isMobile ? "inline-flex" : "none";
       }
     }
 
-    // Handle paste from clipboard (desktop)
     async function handlePasteEvent(e) {
       const items = (e.clipboardData && e.clipboardData.items) ? Array.from(e.clipboardData.items) : [];
       const imgItem = items.find(it => it.type && it.type.startsWith("image/"));
@@ -1218,7 +1104,6 @@
       showToast("Screenshot added!", "success");
     }
 
-    // Handle mobile file selection
     async function handleMobileFile(e) {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
@@ -1238,7 +1123,6 @@
       }
     }
 
-    // Try to read clipboard on mobile (works on some Android devices)
     async function tryMobilePaste() {
       if (!navigator.clipboard || !navigator.clipboard.read) {
         return false;
@@ -1279,13 +1163,11 @@
         whoami.style.color = "var(--text-primary)";
         $("signOutBtn").classList.remove("hidden");
         $("app").classList.remove("hidden");
-        $("authCard").querySelector('.card-icon').textContent = '✅';
       } else {
         whoami.innerHTML = `<span class="status-dot status-offline"></span>Offline`;
         whoami.style.color = "var(--text-muted)";
         $("signOutBtn").classList.add("hidden");
         $("app").classList.add("hidden");
-        $("authCard").querySelector('.card-icon').textContent = '🔐';
       }
     }
 
@@ -1457,7 +1339,7 @@
       $("session").value = "ASIA";
       setFormScreenshot("", "");
       editingId = null;
-      $("addBtn").textContent = "💾 Save Trade";
+      $("addBtn").textContent = "Save Trade";
     }
 
     async function delTrade(id) {
@@ -1513,7 +1395,7 @@
       $("shotFile").value = "";
       $("notes").value = t.notes || "";
       setFormScreenshot(t.shotDataUrl || "", t.shotDataUrl ? "Loaded" : "");
-      $("addBtn").textContent = "💾 Update Trade";
+      $("addBtn").textContent = "Update Trade";
       window.scrollTo({ top: 0, behavior: "smooth" });
       showToast("Editing trade...", "success");
     }
@@ -1563,7 +1445,7 @@
       }
 
       editingId = null; 
-      $("addBtn").textContent = "💾 Save Trade"; 
+      $("addBtn").textContent = "Save Trade"; 
       clearForm(false);
     }
 
@@ -1649,8 +1531,8 @@
             <td colspan="12">
               <div class="empty-state">
                 <div class="empty-icon">📈</div>
-                <div style="font-size:18px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">No trades yet</div>
-                <div style="font-size:14px;">Add your first trade above to get started</div>
+                <div style="font-size:16px; font-weight:500; color:var(--text-primary); margin-bottom:4px;">No trades yet</div>
+                <div style="font-size:13px; color:var(--text-muted);">Add your first trade to get started</div>
               </div>
             </td>
           </tr>
@@ -1675,12 +1557,12 @@
             shotHtml = `
               <img class="thumb" src="${escapeHtml(thumbSrc)}" onclick="openShot('${t.id}')" loading="lazy" />
               <div style="margin-top:4px; display:flex; gap:8px; font-size:11px;">
-                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue);">Link</a>` : ""}
-                <a href="#" onclick="deleteScreenshotOnly('${t.id}');return false;" style="color:#ef4444;">Remove</a>
+                ${t.shotUrl ? `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--accent-blue);">Link</a>` : ""}
+                <a href="#" onclick="deleteScreenshotOnly('${t.id}');return false;" style="color:var(--accent-red);">Remove</a>
               </div>
             `;
           } else if (t.shotUrl) {
-            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--primary-blue); font-size:12px;">View →</a>`;
+            shotHtml = `<a href="${escapeHtml(t.shotUrl)}" target="_blank" style="color:var(--accent-blue); font-size:12px;">View →</a>`;
           }
         }
 
@@ -1701,18 +1583,18 @@
                 <div class="trade-date">${dt.toLocaleDateString()}</div>
                 <div class="trade-time">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} • ${escapeHtml(t.session)}</div>
               </td>
-              <td data-label="Symbol"><strong style="color:var(--primary-green); font-size:16px;">${escapeHtml(t.symbol)}</strong></td>
+              <td data-label="Symbol"><strong style="color:var(--text-primary); font-size:15px;">${escapeHtml(t.symbol)}</strong></td>
               <td data-label="Direction">${dirBadge}</td>
               <td data-label="Setup">${escapeHtml(setup)}</td>
               <td data-label="Result">${resultBadge}</td>
-              <td data-label="RR" class="font-mono" style="font-weight:600; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</td>
+              <td data-label="RR" class="font-mono" style="font-weight:600; color:${Number(t.rr) >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${fmt(t.rr)}R</td>
               <td data-label="P&L" class="font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
               <td data-label="Chart">${shotHtml}</td>
               <td data-label="Tags"><div style="display:flex; flex-wrap:wrap; gap:4px;">${tags || "—"}</div></td>
               <td data-label="Notes" style="font-size:13px; color:var(--text-muted); max-width:200px;">${notes}</td>
               <td data-label="Actions">
                 <div class="actions">
-                  <button class="btn btn-outline btn-sm" onclick="startEdit('${t.id}')">Edit</button>
+                  <button class="btn btn-sm" onclick="startEdit('${t.id}')">Edit</button>
                   <button class="btn btn-danger btn-sm" onclick="delTrade('${t.id}')">Del</button>
                 </div>
               </td>
@@ -1723,25 +1605,25 @@
         return `
           <tr>
             <td>
-              <div style="font-weight:600;">${dt.toLocaleDateString()}</div>
+              <div style="font-weight:500;">${dt.toLocaleDateString()}</div>
               <div style="font-size:12px; color:var(--text-muted);">${dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
             </td>
-            <td><strong style="color:var(--primary-green);">${escapeHtml(t.symbol)}</strong></td>
+            <td><strong style="color:var(--text-primary);">${escapeHtml(t.symbol)}</strong></td>
             <td>${dirBadge}</td>
             <td>${escapeHtml(t.session)}</td>
             <td>${escapeHtml(setup)}</td>
             <td class="text-right font-mono">${fmt(t.riskR)}</td>
             <td class="text-right">
               ${resultBadge}
-              <div class="font-mono" style="font-size:12px; margin-top:4px; color:${Number(t.rr) >= 0 ? 'var(--primary-green)' : '#ef4444'};">${fmt(t.rr)}R</div>
+              <div class="font-mono" style="font-size:12px; margin-top:4px; color:${Number(t.rr) >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${fmt(t.rr)}R</div>
             </td>
-            <td class="text-right font-mono ${plClass}" style="font-weight:600;">${pl || "—"}</td>
+            <td class="text-right font-mono ${plClass}" style="font-weight:500;">${pl || "—"}</td>
             <td>${shotHtml}</td>
             <td>${tags || "—"}</td>
             <td style="max-width:200px; font-size:13px; color:var(--text-secondary);">${notes}</td>
             <td class="text-right">
               <div class="actions">
-                <button class="btn btn-outline btn-sm" onclick="startEdit('${t.id}')">Edit</button>
+                <button class="btn btn-sm" onclick="startEdit('${t.id}')">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="delTrade('${t.id}')">Delete</button>
               </div>
             </td>
@@ -1818,7 +1700,7 @@
     function exportCSV() {
       const csv = toCSV(state.trades);
       const stamp = new Date().toISOString().slice(0, 10);
-      download(`citrus-trades-${stamp}.csv`, csv);
+      download(`trades-${stamp}.csv`, csv);
       showToast("Exported successfully!", "success");
     }
 
@@ -1933,7 +1815,7 @@
     
     $("clearFormBtn").onclick = () => { 
       editingId = null; 
-      $("addBtn").textContent = "💾 Save Trade"; 
+      $("addBtn").textContent = "Save Trade"; 
       clearForm(false); 
     };
     
@@ -1951,30 +1833,24 @@
     $("sortRRBtn").onclick = () => setSort("rr");
     $("sortSymbolBtn").onclick = () => setSort("symbol");
 
-    // Paste zone events
     const pasteZone = $("pasteBox");
     pasteZone.addEventListener("focus", () => pasteZone.classList.add("active"));
     pasteZone.addEventListener("blur", () => pasteZone.classList.remove("active"));
     pasteZone.addEventListener("paste", handlePasteEvent);
     
-    // Try clipboard API on click (for mobile)
     pasteZone.addEventListener("click", async () => {
       if (isMobile) {
         const success = await tryMobilePaste();
         if (!success) {
-          // Focus the hidden file input as fallback
           $("mobileFileInput").click();
         }
       }
     });
     
-    // Desktop paste
     document.addEventListener("paste", handlePasteEvent);
     
-    // Mobile file input
     $("mobileFileInput").addEventListener("change", handleMobileFile);
     
-    // Regular file input
     $("shotFile").addEventListener("change", async (e) => { 
       const file = e.target.files && e.target.files[0] ? e.target.files[0] : null; 
       if (!file) return; 
@@ -1989,21 +1865,18 @@
       setFormScreenshot("", ""); 
     });
 
-    // Handle window resize
     let resizeTimer;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(render, 250);
     });
 
-    // Initialize mobile UI
     if (isMobile) {
       $("pasteHint").style.display = "none";
     } else {
       $("mobileUploadBtn").style.display = "none";
     }
 
-    // Initialize
     loadLocalCache();
     $("date").value = nowISODate(); 
     $("time").value = nowISOTime(); 
